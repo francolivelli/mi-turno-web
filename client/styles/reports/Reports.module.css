@@ -1,0 +1,11 @@
+.report {
+  width: 85%;
+  margin: -24px auto 0px;
+}
+
+.report p {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 8px;
+}

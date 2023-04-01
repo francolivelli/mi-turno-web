@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 20vw;
+}
+
+.inner-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.heading {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: var(--color-grey6);
+}
+
+.user {
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 24px;
+}
+
+.body {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--color-grey6);
+}
+
+.body span {
+  font-weight: bold;
+}
+
+.divider {
+    border: 0.0625rem solid var(--color-grey3);
+    width: 100%;
+  }

@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.container div {
+  background-color: var(--color-grey4);
+}
+
+.arm {
+  width: 5.239375rem;
+  height: 0.125rem;
+}
+
+.main {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

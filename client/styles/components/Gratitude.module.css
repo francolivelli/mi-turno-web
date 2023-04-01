@@ -1,0 +1,29 @@
+.gratitude {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: -0.75rem 0rem 3.5rem;
+  gap: 1.5rem;
+}
+
+.gratitude__icon {
+  color: var(--color-primary);
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.gratitude__title {
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 32px;
+    color: var(--color-primary);
+}
+
+.gratitude__text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}

@@ -1,0 +1,55 @@
+
+.cajaCalendar{
+padding: 32px;
+gap: 10px;
+position: absolute;
+width: 457px;
+left: 815px;
+top: 208px;
+background: #FFFFFF;
+border-radius: 8px;
+}
+
+.titulo{
+width: 360px;
+height: 24px;
+font-weight: 600;
+font-size: 18px;
+line-height: 24px;
+text-align: center;
+color: #000000;
+}
+.filas{
+   list-style: none;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 0;
+}
+/* 
+esto seria porque marzo del 2023 comienza en el dia miercoles, pero no logro que lo tome
+.primerDia{
+    grid-column-start: 3;
+} */
+.cajaDia{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 8px 12px;
+gap: 10px;
+
+width: 56px;
+height: 40px;
+border-radius: 4px;
+
+}
+.nombreDia{
+width: 21px;
+height: 24px;
+font-weight: 400;
+font-size: 17px;
+line-height: 24px;
+text-align: center;
+color: #6E6E6E;
+}
+
