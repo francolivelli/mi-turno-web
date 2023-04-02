@@ -1,9 +1,9 @@
-import RegisterForm from '../components/RegisterForm'
+import SignUpForm from '../components/SignUpForm'
 
 const page = () => {
   return (
     <section className="section-a">
-      <RegisterForm/>
+      <SignUpForm/>
     </section>
   )
 }

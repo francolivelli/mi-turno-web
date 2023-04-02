@@ -1,5 +1,5 @@
 "use client";
-import styles from "../../styles/components/RegisterForm.module.css";
+import styles from "../../styles/components/SignUpForm.module.css";
 import Button from "../commons/Button";
 import { MdArrowBack } from "react-icons/md";
 import {
@@ -9,8 +9,9 @@ import {
   AiFillCloseCircle,
 } from "react-icons/ai";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
-function RegisterForm() {
+function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [password, setPassword] = useState("");
@@ -83,6 +84,38 @@ function RegisterForm() {
     setShowConfirmPassword((prev) => !prev);
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+
+    // Valida que las contraseñas coincidan
+    const password = formData.get("password");
+    const confirmPassword = formData.get("confirmPassword");
+    if (password !== confirmPassword) {
+      alert("Las contraseñas no coinciden");
+      return;
+    }
+
+    // Envía la información del usuario al servidor
+    axios
+      .post("http://localhost:5000/api/users/signup", {
+        name: formData.get("name"),
+        dni: formData.get("dni"),
+        email: formData.get("email"),
+        password: password,
+      })
+      .then((response) => {
+        console.log(response.data);
+        // Redirecciona al usuario a la página de inicio de sesión
+        window.location.href = "/";
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Ha ocurrido un error al registrar al usuario");
+      });
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -92,30 +125,30 @@ function RegisterForm() {
         </p>
         <h1 className={styles.title}>Crear cuenta</h1>
       </div>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <div className="input__rowContainer">
           <div className="input__field">
-            <label for="name" className="input__label">
+            <label htmlFor="name" className="input__label">
               Nombre y Apellido
             </label>
             <input type="text" name="name" id="name" className="input" />
           </div>
           <div className="input__field">
-            <label for="dni" className="input__label">
+            <label htmlFor="dni" className="input__label">
               DNI
             </label>
-            <input type="text" name="name" id="name" className="input" />
+            <input type="text" name="dni" id="dni" className="input" />
           </div>
         </div>
         <div className="input__field">
-          <label for="mail" className="input__label">
+          <label htmlFor="email" className="input__label">
             Mail
           </label>
-          <input type="email" name="mail" id="mail" className="input" />
+          <input type="email" name="email" id="email" className="input" />
         </div>
         <div className="input__rowContainer">
           <div className="input__field">
-            <label for="password" className="input__label">
+            <label htmlFor="password" className="input__label">
               Contraseña
             </label>
             <div style={{ position: "relative" }}>
@@ -145,7 +178,7 @@ function RegisterForm() {
             </div>
           </div>
           <div className="input__field">
-            <label name="confirmPassword" className="input__label">
+            <label htmlFor="password" className="input__label">
               Repetir Contraseña
             </label>
             <div style={{ position: "relative" }}>
@@ -240,4 +273,4 @@ function RegisterForm() {
   );
 }
 
-export default RegisterForm;
+export default SignUpForm;
