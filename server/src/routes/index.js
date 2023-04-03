@@ -1,10 +1,10 @@
 import express from "express";
-import userRoutes from "./user.js";
-import branchRoutes from "./branch.js";
+import usersRoutes from "./users.js";
+import branchesRoutes from "./branches.js";
 
 const router = express.Router();
 
-router.use("/user", userRoutes);
-router.use("/branch", branchRoutes);
+router.use("/users", usersRoutes);
+router.use("/branches", branchesRoutes);
 
 export default router;

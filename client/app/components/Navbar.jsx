@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../../styles/components/Navbar.module.css";
 import Button from "../commons/Button";
 
-function Navbar() {
+function Navbar({ user }) {
   return (
     <div className={styles.caja}>
       <div>

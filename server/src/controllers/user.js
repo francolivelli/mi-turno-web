@@ -47,12 +47,9 @@ const signup = async (req, res) => {
 
     const user = await userService.signup({ name, dni, email, password });
 
-    const token = generateToken(user);
-
     user.password = undefined;
     user.salt = undefined;
 
-    res.cookie("token", token);
     responseHelper.created(res, {
       ...user._doc,
       id: user.id,
@@ -74,10 +71,9 @@ const signin = async (req, res) => {
     user.password = undefined;
     user.salt = undefined;
 
-    res.cookie("token", token);
     responseHelper.created(res, {
-      ...user._doc,
-      id: user.id,
+      token,
+      user: { ...user._doc, id: user.id },
     });
   } catch {
     responseHelper.error(res);

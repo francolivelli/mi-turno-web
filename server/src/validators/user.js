@@ -55,16 +55,6 @@ export const validateSignup = [
         return true;
       }
     }),
-  check("confirmPassword")
-    .exists()
-    .withMessage("Password confirmation is required.")
-    .isLength({ min: 8 })
-    .withMessage("Password must have at least 8 characters.")
-    .custom((value, { req }) => {
-      if (value !== req.body.password)
-        throw new Error("Password confirmation does not match.");
-      return true;
-    }),
   (req, res, next) => {
     validate(req, res, next);
   },

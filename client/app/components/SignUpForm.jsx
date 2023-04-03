@@ -10,6 +10,7 @@ import {
 } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Link from "next/link";
 
 function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -114,7 +115,7 @@ function SignUpForm() {
         console.error(error);
         alert("Ha ocurrido un error al registrar al usuario");
       });
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -265,10 +266,12 @@ function SignUpForm() {
         />
       </form>
       <hr className={styles.divider} />
-      <Button
-        className={"btn-secondary w100"}
-        title="¿Ya tenés cuenta? Iniciá sesión"
-      />
+      <Link href="/">
+        <Button
+          className={"btn-secondary w100"}
+          title="¿Ya tenés cuenta? Iniciá sesión"
+        />
+      </Link>
     </div>
   );
 }
