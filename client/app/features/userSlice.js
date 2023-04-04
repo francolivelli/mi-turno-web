@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import cookies from "js-cookie";
 
 export const userSlice = createSlice({
   name: "user",
@@ -38,9 +37,24 @@ export const loginAsync =
         },
         { withCredentials: true }
       );
-      const { token, user } = response.data;
-      cookies.set("token", token, { expires: 1 });
+      const { user } = response.data;
       dispatch(login(user));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  };
+
+  export const logoutAsync = () => async (dispatch) => {
+    try {
+      dispatch(setIsLoading(true));
+      await axios.post(
+        "http://localhost:5000/api/users/signout",
+        {},
+        { withCredentials: true }
+      );
+      dispatch(logout());
     } catch (error) {
       console.error(error);
     } finally {

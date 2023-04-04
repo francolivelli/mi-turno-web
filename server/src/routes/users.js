@@ -16,4 +16,7 @@ router.post("/signup", validateSignup, userController.signup);
 // SIGNIN
 router.post("/signin", validateSignin, userController.signin);
 
+// SIGNOUT
+router.post("/signout", userController.signout);
+
 export default router;

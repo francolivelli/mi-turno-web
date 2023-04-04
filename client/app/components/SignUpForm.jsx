@@ -1,6 +1,5 @@
 "use client";
 import styles from "../../styles/components/SignUpForm.module.css";
-import Button from "../commons/Button";
 import { MdArrowBack } from "react-icons/md";
 import {
   AiOutlineEye,
@@ -11,6 +10,9 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
 
 function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,6 +20,8 @@ function SignUpForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(null);
+  const router = useRouter();
+  const user = useSelector(selectUser);
 
   const rules = [
     {
@@ -68,6 +72,12 @@ function SignUpForm() {
       setPasswordsMatch(false);
     }
   }, [password, confirmPassword]);
+
+  useEffect(() => {
+    if (user?.role === "client") {
+      router.push("/booking/create");
+    }
+  }, [user]);
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
@@ -259,18 +269,13 @@ function SignUpForm() {
             </div>
           </div>
         </div>
-        <Button
-          className={"btn-primary w100"}
-          title="Registrarme"
-          type="submit"
-        />
+        <button className={"btn-primary w100"}>Registrarme</button>
       </form>
       <hr className={styles.divider} />
       <Link href="/">
-        <Button
-          className={"btn-secondary w100"}
-          title="¿Ya tenés cuenta? Iniciá sesión"
-        />
+        <button className={"btn-secondary w100"}>
+          ¿Ya tenés cuenta? Iniciá sesión
+        </button>
       </Link>
     </div>
   );

@@ -71,8 +71,14 @@ const signin = async (req, res) => {
     user.password = undefined;
     user.salt = undefined;
 
+    const cookieOptions = {
+      expires: new Date(Date.now() + 6 * 60 * 60 * 1000), // Establece la fecha de caducidad a 6 horas a partir de la fecha actual
+      httpOnly: true, // Establece la cookie como HTTP only para evitar ataques XSS
+      sameSite: "strict", // Establece el atributo SameSite para prevenir ataques CSRF
+    };
+
+    res.cookie("token", token, cookieOptions);
     responseHelper.created(res, {
-      token,
       user: { ...user._doc, id: user.id },
     });
   } catch {
@@ -80,4 +86,10 @@ const signin = async (req, res) => {
   }
 };
 
-export default { admin, create, signup, signin };
+// SIGNOUT
+const signout = (req, res) => {
+  res.clearCookie("token");
+  res.sendStatus(204);
+};
+
+export default { admin, create, signup, signin,signout };
