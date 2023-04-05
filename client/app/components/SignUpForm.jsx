@@ -1,5 +1,5 @@
 "use client";
-import styles from "../../styles/components/SignUpForm.module.css";
+import styles from "../../styles/components/GeneralForm.module.css";
 import { MdArrowBack } from "react-icons/md";
 import {
   AiOutlineEye,
@@ -22,6 +22,7 @@ function SignUpForm() {
   const [passwordsMatch, setPasswordsMatch] = useState(null);
   const router = useRouter();
   const user = useSelector(selectUser);
+  const [loading, setLoading] = useState(false);
 
   const rules = [
     {
@@ -61,9 +62,7 @@ function SignUpForm() {
       }
       element.innerHTML = `<p>${messages[0]}</p><p>${messages[1]}</p>`;
     }
-  }, [password]);
 
-  useEffect(() => {
     if (confirmPassword === "") {
       setPasswordsMatch(null);
     } else if (password === confirmPassword) {
@@ -97,6 +96,7 @@ function SignUpForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
     const form = event.target;
     const formData = new FormData(form);
 
@@ -117,12 +117,12 @@ function SignUpForm() {
         password: password,
       })
       .then((response) => {
-        console.log(response.data);
         // Redirecciona al usuario a la página de inicio de sesión
-        window.location.href = "/";
+        setLoading(false);
+        router.push("/");
       })
       .catch((error) => {
-        console.error(error);
+        setLoading(false);
         alert("Ha ocurrido un error al registrar al usuario");
       });
   };
@@ -130,7 +130,7 @@ function SignUpForm() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <p className={`${styles.back} link`}>
+        <p className={`${styles.back} link`} onClick={() => router.back()}>
           <MdArrowBack />
           Atrás
         </p>
@@ -162,76 +162,51 @@ function SignUpForm() {
             <label htmlFor="password" className="input__label">
               Contraseña
             </label>
-            <div style={{ position: "relative" }}>
-              <input
-                name="password"
-                id="password"
-                className="input"
-                type={showPassword ? "text" : "password"}
-                style={{ paddingRight: "40px" }}
-                onChange={handlePasswordChange}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  top: "55%",
-                  transform: "translateY(-50%)",
-                  right: "10px",
-                  cursor: "pointer",
-                }}
-                onClick={togglePasswordVisibility}>
-                {showPassword ? (
-                  <AiFillEye className="input__eye" />
-                ) : (
-                  <AiOutlineEye className="input__eye" />
-                )}
-              </div>
+            <input
+              name="password"
+              id="password"
+              className="input"
+              type={showPassword ? "text" : "password"}
+              style={{ paddingRight: "40px" }}
+              onChange={handlePasswordChange}
+            />
+            <div onClick={togglePasswordVisibility}>
+              {showPassword ? (
+                <AiFillEye className="input__eye" />
+              ) : (
+                <AiOutlineEye className="input__eye" />
+              )}
             </div>
           </div>
           <div className="input__field">
             <label htmlFor="password" className="input__label">
               Repetir Contraseña
             </label>
-            <div style={{ position: "relative" }}>
-              <input
-                name="confirmPassword"
-                id="confirmPassword"
-                className="input"
-                type={showConfirmPassword ? "text" : "password"}
-                style={{ paddingRight: "50px" }}
-                onChange={handleConfirmPasswordChange}
-              />
-              {confirmPassword !== "" && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "55%",
-                    transform: "translateY(-50%)",
-                    right: "30px",
-                    color: passwordsMatch ? "#00a541" : "#e53939",
-                  }}>
-                  {passwordsMatch ? (
-                    <AiFillCheckCircle />
-                  ) : (
-                    <AiFillCloseCircle />
-                  )}
-                </div>
-              )}
+            <input
+              name="confirmPassword"
+              id="confirmPassword"
+              className="input"
+              type={showConfirmPassword ? "text" : "password"}
+              style={{ paddingRight: "50px" }}
+              onChange={handleConfirmPasswordChange}
+            />
+            {confirmPassword !== "" && (
               <div
+                className="input__checkCross"
                 style={{
-                  position: "absolute",
-                  top: "55%",
-                  transform: "translateY(-50%)",
-                  right: "10px",
-                  cursor: "pointer",
-                }}
-                onClick={toggleConfirmPasswordVisibility}>
-                {showConfirmPassword ? (
-                  <AiFillEye className="input__eye" />
-                ) : (
-                  <AiOutlineEye className="input__eye" />
-                )}
+                  fontSize: "1rem",
+                  right: "35px",
+                  color: passwordsMatch ? "#00a541" : "#e53939",
+                }}>
+                {passwordsMatch ? <AiFillCheckCircle /> : <AiFillCloseCircle />}
               </div>
+            )}
+            <div onClick={toggleConfirmPasswordVisibility}>
+              {showConfirmPassword ? (
+                <AiFillEye className="input__eye" />
+              ) : (
+                <AiOutlineEye className="input__eye" />
+              )}
             </div>
           </div>
         </div>
@@ -269,7 +244,9 @@ function SignUpForm() {
             </div>
           </div>
         </div>
-        <button className={"btn-primary w100"}>Registrarme</button>
+        <button className={"btn-primary w100"}>
+          {loading ? <span className="spinner" /> : "Registrarme"}
+        </button>
       </form>
       <hr className={styles.divider} />
       <Link href="/">

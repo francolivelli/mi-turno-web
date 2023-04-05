@@ -1,15 +1,17 @@
 "use client";
 import Link from "next/link";
-import styles from "../../styles/components/LoginForm.module.css";
-import Button from "../commons/Button";
+import styles from "../../styles/components/GeneralForm.module.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAsync, selectUser } from "../features/userSlice";
 import { useRouter } from "next/navigation";
+import { AiFillEye, AiOutlineEye } from "react-icons/ai";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -17,7 +19,13 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     dispatch(loginAsync({ email, password }));
+    setLoading(false);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
   };
 
   useEffect(() => {
@@ -30,8 +38,8 @@ const LoginForm = () => {
     <div className={styles.container}>
       <h1 className={styles.title}>Iniciar sesión</h1>
       <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
-        <div className={styles.inputContainer}>
-          <label className={styles.label}>Mail</label>
+        <div className="input__field">
+          <label className="input__label">Mail</label>
           <input
             type="email"
             className="input"
@@ -39,26 +47,43 @@ const LoginForm = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className={styles.inputContainer}>
-          <label className={styles.label}>Contraseña</label>
+        <div className="input__field">
+          <label className="input__label">Contraseña</label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             className="input"
             value={password}
+            style={{ paddingRight: "40px" }}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <div
+            style={{
+              top: "55%",
+              right: "10px",
+              cursor: "pointer",
+            }}
+            onClick={togglePasswordVisibility}>
+            {showPassword ? (
+              <AiFillEye className="input__eye" />
+            ) : (
+              <AiOutlineEye className="input__eye" />
+            )}
+          </div>
         </div>
         <div className={styles.questionContainer}>
-          <h4 className="link">¿Olvidaste tu contraseña?</h4>
+          <Link href="/forgot-password">
+            <h4 className="link">¿Olvidaste tu contraseña?</h4>
+          </Link>
         </div>
-        <Button className={"btn-primary w100"} title="Ingresar" type="submit" />
+        <button className={"btn-primary w100"}>
+          {loading ? <span className="spinner" /> : "Ingresar"}
+        </button>
       </form>
       <hr className={styles.divider} />
       <Link href="/signup">
-        <Button
-          className={"btn-secondary w100"}
-          title="¿No tenés cuenta? Registrate"
-        />
+        <button className={"btn-secondary w100"}>
+          ¿No tenés cuenta? Registrate
+        </button>
       </Link>
     </div>
   );

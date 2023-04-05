@@ -19,4 +19,16 @@ router.post("/signin", validateSignin, userController.signin);
 // SIGNOUT
 router.post("/signout", userController.signout);
 
+//FORGOT PASSWORD
+router.post("/forgot-password", userController.forgotPassword);
+
+// FIND USER BY EMAIL
+router.get("/:email", userController.findUserByEmail);
+
+//VERIFY TOKEN
+router.get("/verifyToken/:token", userController.verifyToken);
+
+// RESET PASSWORD
+router.post("/reset-password", userController.resetPassword);
+
 export default router;

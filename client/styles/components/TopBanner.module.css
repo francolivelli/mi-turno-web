@@ -1,9 +1,10 @@
 .banner {
-  background: var(--color-grey2);
   display: flex;
   justify-content: center;
-  padding-top: 12px;
-  padding-bottom: 8px;
+  align-items: center;
+  background: var(--color-grey2);
+  height: 36px;
+  position: relative;
 }
 
 .text {

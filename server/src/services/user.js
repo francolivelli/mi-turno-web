@@ -1,4 +1,5 @@
 import responseHelper from "../helpers/response.helper.js";
+import passwordResetTokenModel from "../models/PasswordResetToken.js";
 import userModel from "../models/User.js";
 
 // CREATE ADMIN
@@ -90,7 +91,7 @@ const signin = async (email, password) => {
     .findOne({ email })
     .select("name dni email password role branch salt id");
 
-  if (!user) return responseHelper.badrequest(res, "User not exist");
+  if (!user) return responseHelper.badrequest(res, "User does not exist");
 
   if (!user.validPassword(password))
     return responseHelper.badrequest(res, "Wrong password");
@@ -98,4 +99,53 @@ const signin = async (email, password) => {
   return user;
 };
 
-export default { admin, create, signin, signup };
+// FIND USER BY EMAIL
+const findUserByEmail = async (email) => {
+  const user = await userModel.findOne({ email });
+
+  if (!user) return responseHelper.badrequest(res, "User does not exist");
+
+  return user;
+};
+
+// VERIFY TOKEN
+const verifyToken = async (token) => {
+  const resetToken = await passwordResetTokenModel
+    .findOne({ token: token })
+    .exec();
+
+  if (!resetToken) return responseHelper.badrequest(res, "Invalid token");
+
+  return resetToken;
+};
+
+// RESET PASSWORD
+const resetPassword = async (id, newPassword) => {
+  const user = await userModel.findOne({ _id: id });
+
+  if (!user) return responseHelper.badrequest(res, "User does not exist");
+
+  user.setPassword(newPassword);
+
+  await user.save();
+
+  return user;
+};
+
+// DELETE TOKEN
+const deleteToken = async (token) => {
+  const resetToken = await passwordResetTokenModel.findOne({ token: token });
+
+  await resetToken.deleteOne();
+};
+
+export default {
+  admin,
+  create,
+  signin,
+  signup,
+  findUserByEmail,
+  verifyToken,
+  resetPassword,
+  deleteToken
+};

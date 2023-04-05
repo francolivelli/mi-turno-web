@@ -1,0 +1,173 @@
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 40px 32px 32px;
+  margin: 48px 0px 48px;
+  gap: 20px;
+  width: 45%;
+  box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  margin-top: 2.99px;
+  margin-left: 2.99px;
+  gap: 6.5px;
+}
+
+.title {
+  height: 32px;
+  font-weight: 600;
+  font-size: 24px;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.questionContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.messageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: var(--color-grey7);
+}
+
+.checkIcon {
+  font-size: 18px;
+  color: #00a541;
+  margin-right: 10px;
+}
+
+.divider {
+  border: 0.0625rem solid var(--color-grey3);
+  width: 100%;
+}
+
+.warnings {
+  background-color: var(--color-grey1);
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px;
+  border-radius: 8px;
+  color: var(--color-grey7);
+  gap: 12px;
+  margin-bottom: 0.5rem;
+}
+
+.warnings__header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.warnings__sentence {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.warnings__container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: flex-start;
+}
+
+.warnings__row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.warnings__column {
+  width: 50%;
+}
+
+.warnings__warning {
+  display: flex;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 480px) {
+  .container {
+    width: 80%;
+    margin: 24px 0px;
+    padding: 24px 16px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .form {
+    gap: 8px;
+  }
+
+  .questionContainer {
+    margin-top: 8px;
+  }
+
+  .warnings__row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .warnings__column {
+    width: 100%;
+    position: relative;
+  }
+
+  .warnings__warning p:last-child {
+    text-indent: 2rem;
+    position: absolute;
+  }
+
+  .messageContainer {
+    display: flex;
+    font-size: 12px;
+  }
+}
+
+/* Estilos para tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+  .container {
+    width: 70%;
+    margin: 32px 0px;
+    padding: 32px 24px;
+  }
+
+  .title {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .form {
+    gap: 16px;
+  }
+
+  .questionContainer {
+    margin-top: 16px;
+  }
+}
