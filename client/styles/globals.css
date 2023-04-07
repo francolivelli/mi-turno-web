@@ -36,6 +36,7 @@
 
 html {
   scroll-behavior: smooth;
+  height: 100%;
 }
 
 ::-webkit-scrollbar {
@@ -44,8 +45,11 @@ html {
 
 body {
   max-width: 100vw;
+  height: 100%;
   overflow-x: hidden;
   color: var(--color-black);
+  display: flex;
+  flex-direction: column;
 }
 
 /* ========== UTILS ========== */
@@ -80,14 +84,15 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .section-b {
-  padding: 3rem 0rem 2rem;
   background-color: var(--color-grey2);
   display: flex;
   align-items: center;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 /* ========== BUTTONS ========== */
@@ -369,6 +374,7 @@ body {
   .input__rowContainer {
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
   }
 
   .input__label {

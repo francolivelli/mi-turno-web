@@ -45,7 +45,7 @@ const ForgotPasswordForm = () => {
       {showMessage && (
         <section className={styles.messageContainer}>
           <AiFillCheckCircle className={styles.checkIcon} />
-          <div className={styles.messageContainer__text}>
+          <div >
             <p>Correo electrónico enviado.</p>
             <p>Por favor revise su bandeja de entrada.</p>
           </div>

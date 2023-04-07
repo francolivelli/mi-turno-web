@@ -91,10 +91,10 @@ const signin = async (email, password) => {
     .findOne({ email })
     .select("name dni email password role branch salt id");
 
-  if (!user) return responseHelper.badrequest(res, "User does not exist");
+  if (!user) return responseHelper.badrequest(res, "El usuario no existe.");
 
   if (!user.validPassword(password))
-    return responseHelper.badrequest(res, "Wrong password");
+    return responseHelper.badrequest(res, "La contraseña es incorrecta.");
 
   return user;
 };

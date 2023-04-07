@@ -5,23 +5,26 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAsync, selectUser } from "../features/userSlice";
 import { useRouter } from "next/navigation";
-import { AiFillEye, AiOutlineEye } from "react-icons/ai";
+import { AiFillCloseCircle, AiFillEye, AiOutlineEye } from "react-icons/ai";
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const user = useSelector(selectUser);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const user = useSelector(selectUser);
+  const [error, setError] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     dispatch(loginAsync({ email, password }));
     setLoading(false);
+    if (email && password && user === null) {
+      setError(true);
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -70,6 +73,14 @@ const LoginForm = () => {
             )}
           </div>
         </div>
+        {error && (
+          <section className={styles.messageContainer}>
+            <AiFillCloseCircle className={styles.crossIcon} />
+            <div>
+              <p>Usuario inexistente o contraseña incorrecta.</p>
+            </div>
+          </section>
+        )}
         <div className={styles.questionContainer}>
           <Link href="/forgot-password">
             <h4 className="link">¿Olvidaste tu contraseña?</h4>

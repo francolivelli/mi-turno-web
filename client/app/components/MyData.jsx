@@ -1,29 +1,24 @@
 "use client";
-import { useDispatch, useSelector } from "react-redux";
-import styles from "../../styles/components/MyData.module.css";
-import { logoutAsync, selectUser } from "../features/userSlice";
-import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import styles from "../../styles/components/GeneralForm.module.css";
+import { logoutAsync } from "../features/userSlice";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const MyData = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const user = useSelector(selectUser);
 
   const handleLogout = () => {
-    dispatch(logoutAsync())
-  }
-
-  useEffect(() => {
-    if (!user) {
-      router.push("/");
-    }
-  }, [user]);
+    axios.post("http://localhost:5000/api/users/signout")
+    dispatch(logoutAsync());
+    router.push("/")
+  };
 
   return (
-    <div className={styles["my-data"]}>
-      <h1 className={styles["my-data__title"]}>Mis datos</h1>
-      <form className={styles["my-data__form"]}>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Mis datos</h1>
+      <form className={styles.form}>
         <div className="input__field">
           <label className="input__label" htmlFor="name">
             Nombre
@@ -58,9 +53,7 @@ const MyData = () => {
         </button>
       </form>
       <hr className={styles.divider} />
-      <button
-        className="btn-secondary w100"
-        onClick={handleLogout}>
+      <button className="btn-secondary w100" onClick={handleLogout}>
         Cerrar sesión
       </button>
     </div>
