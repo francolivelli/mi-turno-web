@@ -11,41 +11,20 @@ import {
   AiOutlineCheckCircle,
   AiOutlineEye,
 } from "react-icons/ai";
+import PasswordWarnings from "../commons/PasswordWarnings";
 
 const ResetPasswordForm = () => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(null);
   const [isValidToken, setIsValidToken] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  const rules = [
-    {
-      id: "uppercase-warning",
-      regex: /[A-Z]/,
-      messages: ["ABC", "Una letra mayúscula"],
-    },
-    {
-      id: "lowercase-warning",
-      regex: /[a-z]/,
-      messages: ["abc", "Una letra minúscula"],
-    },
-    {
-      id: "number-warning",
-      regex: /[0-9]/,
-      messages: ["123", "Un número"],
-    },
-    {
-      id: "length-warning",
-      validate: (value) => value.length >= 8,
-      messages: ["***", "Mínimo 8 caracteres"],
-    },
-  ];
 
   useEffect(() => {
     const token = searchParams.get("token");
@@ -67,47 +46,32 @@ const ResetPasswordForm = () => {
   }, [router.query?.token]);
 
   useEffect(() => {
-    setTimeout(() => {
-      for (const { id, regex, validate, messages } of rules) {
-        const element = document.getElementById(id);
-        if (password === "") {
-          element.style.color = "#6e6e6e";
-        } else if (
-          (regex && regex.test(password)) ||
-          (validate && validate(password))
-        ) {
-          element.style.color = "#00a541";
-        } else {
-          element.style.color = "#e53939";
-        }
-        element.innerHTML = `<p>${messages[0]}</p><p>${messages[1]}</p>`;
-      }
-
-      if (confirmPassword === "") {
-        setPasswordsMatch(null);
-      } else if (password === confirmPassword) {
-        setPasswordsMatch(true);
-      } else {
-        setPasswordsMatch(false);
-      }
-    }, 100);
-  }, [password, confirmPassword]);
+    if (confirmNewPassword === "") {
+      setPasswordsMatch(null);
+    } else if (newPassword === confirmNewPassword) {
+      setPasswordsMatch(true);
+    } else {
+      setPasswordsMatch(false);
+    }
+  }, [newPassword, confirmNewPassword]);
 
   const handleSubmit = async (e) => {
     const token = searchParams.get("token");
     e.preventDefault();
+    setLoading(true);
     const response = await axios.post(
       "http://localhost:5000/api/users/reset-password",
       {
         token: token,
-        password: password,
+        newPassword: newPassword,
       }
     );
+    setLoading(false);
     if (response.status === 200) {
       setSuccess(true);
       setTimeout(() => {
         router.push("/");
-      }, 2000);
+      }, 1500);
     }
   };
 
@@ -146,8 +110,8 @@ const ResetPasswordForm = () => {
             type={showPassword ? "text" : "password"}
             id="password"
             className="input"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
           />
           <div onClick={togglePasswordVisibility}>
             {showPassword ? (
@@ -165,10 +129,10 @@ const ResetPasswordForm = () => {
             type={showConfirmPassword ? "text" : "password"}
             id="confirm-password"
             className="input"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={confirmNewPassword}
+            onChange={(e) => setConfirmNewPassword(e.target.value)}
           />
-          {confirmPassword !== "" && (
+          {confirmNewPassword !== "" && (
             <div
               className="input__checkCross"
               style={{
@@ -187,40 +151,7 @@ const ResetPasswordForm = () => {
             )}
           </div>
         </div>
-        <div className={styles.warnings}>
-          <div className={styles.warnings__header}>
-            <p className={styles.warnings__sentence}>
-              La contraseña debe contener:
-            </p>
-            <hr className={styles.divider} />
-          </div>
-          <div className={styles.warnings__container}>
-            <div className={styles.warnings__row}>
-              <div className={styles.warnings__column}>
-                <div
-                  className={styles.warnings__warning}
-                  id="uppercase-warning"></div>
-              </div>
-              <div className={styles.warnings__column}>
-                <div
-                  className={styles.warnings__warning}
-                  id="lowercase-warning"></div>
-              </div>
-            </div>
-            <div className={styles.warnings__row}>
-              <div className={styles.warnings__column}>
-                <div
-                  className={styles.warnings__warning}
-                  id="number-warning"></div>
-              </div>
-              <div className={styles.warnings__column}>
-                <div
-                  className={styles.warnings__warning}
-                  id="length-warning"></div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <PasswordWarnings password={newPassword} />
         <button
           className={"btn-primary w100"}
           style={success ? { backgroundColor: "#00a541" } : {}}
@@ -229,6 +160,8 @@ const ResetPasswordForm = () => {
             <AiOutlineCheckCircle
               style={{ color: "#fff", fontSize: "1.5rem" }}
             />
+          ) : loading ? (
+            <span className="spinner" />
           ) : (
             "Cambiar contraseña"
           )}

@@ -111,6 +111,7 @@ body {
   font-size: 16px;
   line-height: 20px;
   transition: var(--transition);
+  height: 48px;
 }
 
 .btn-primary:hover {
@@ -235,6 +236,10 @@ body {
   cursor: not-allowed;
 }
 
+.link > span {
+  pointer-events: none;
+}
+
 /* ========== INPUTS ========== */
 
 .input {
@@ -298,6 +303,7 @@ body {
   top: 50%;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .input__checkCross {
@@ -372,7 +378,6 @@ body {
   }
 
   .input__rowContainer {
-    display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
@@ -411,6 +416,10 @@ body {
 /* ========== TABLET MEDIA QUERIES ========== */
 
 @media screen and (min-width: 481px) and (max-width: 768px) {
+  .link {
+    font-size: 12px;
+  }
+
   .input {
     width: 100%;
   }

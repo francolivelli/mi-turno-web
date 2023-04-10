@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
+import PasswordWarnings from "../commons/PasswordWarnings";
 
 function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,45 +25,7 @@ function SignUpForm() {
   const user = useSelector(selectUser);
   const [loading, setLoading] = useState(false);
 
-  const rules = [
-    {
-      id: "uppercase-warning",
-      regex: /[A-Z]/,
-      messages: ["ABC", "Una letra mayúscula"],
-    },
-    {
-      id: "lowercase-warning",
-      regex: /[a-z]/,
-      messages: ["abc", "Una letra minúscula"],
-    },
-    {
-      id: "number-warning",
-      regex: /[0-9]/,
-      messages: ["123", "Un número"],
-    },
-    {
-      id: "length-warning",
-      validate: (value) => value.length >= 8,
-      messages: ["***", "Mínimo 8 caracteres"],
-    },
-  ];
-
   useEffect(() => {
-    for (const { id, regex, validate, messages } of rules) {
-      const element = document.getElementById(id);
-      if (password === "") {
-        element.style.color = "#6e6e6e";
-      } else if (
-        (regex && regex.test(password)) ||
-        (validate && validate(password))
-      ) {
-        element.style.color = "#00a541";
-      } else {
-        element.style.color = "#e53939";
-      }
-      element.innerHTML = `<p>${messages[0]}</p><p>${messages[1]}</p>`;
-    }
-
     if (confirmPassword === "") {
       setPasswordsMatch(null);
     } else if (password === confirmPassword) {
@@ -130,10 +93,10 @@ function SignUpForm() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <p className={`${styles.back} link`} onClick={() => router.back()}>
+        <div className={`${styles.back} link`} onClick={() => router.back()}>
           <MdArrowBack />
-          Atrás
-        </p>
+          <p>Atrás</p>
+        </div>
         <h1 className={styles.title}>Crear cuenta</h1>
       </div>
       <form className={styles.form} onSubmit={handleSubmit}>
@@ -210,40 +173,7 @@ function SignUpForm() {
             </div>
           </div>
         </div>
-        <div className={styles.warnings}>
-          <div className={styles.warnings__header}>
-            <p className={styles.warnings__sentence}>
-              La contraseña debe contener:
-            </p>
-            <hr className={styles.divider} />
-          </div>
-          <div className={styles.warnings__container}>
-            <div className={styles.warnings__row}>
-              <div className={styles.warnings__column}>
-                <div
-                  className={styles.warnings__warning}
-                  id="uppercase-warning"></div>
-              </div>
-              <div className={styles.warnings__column}>
-                <div
-                  className={styles.warnings__warning}
-                  id="lowercase-warning"></div>
-              </div>
-            </div>
-            <div className={styles.warnings__row}>
-              <div className={styles.warnings__column}>
-                <div
-                  className={styles.warnings__warning}
-                  id="number-warning"></div>
-              </div>
-              <div className={styles.warnings__column}>
-                <div
-                  className={styles.warnings__warning}
-                  id="length-warning"></div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <PasswordWarnings password={password} />
         <button className={"btn-primary w100"}>
           {loading ? <span className="spinner" /> : "Registrarme"}
         </button>

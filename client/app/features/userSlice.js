@@ -9,6 +9,7 @@ export const userSlice = createSlice({
         ? JSON.parse(localStorage.getItem("user"))
         : null,
     isLoading: false,
+    error: false,
   },
   reducers: {
     login: (state, action) => {
@@ -25,6 +26,9 @@ export const userSlice = createSlice({
     },
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
     },
   },
 });
@@ -47,7 +51,7 @@ export const loginAsync =
       const { user } = response.data;
       dispatch(login(user));
     } catch (error) {
-      console.error(error);
+      dispatch(setError(true));
     } finally {
       dispatch(setIsLoading(false));
     }

@@ -209,6 +209,41 @@ const resetPassword = async (req, res) => {
   }
 };
 
+// UPDATE USER
+const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, dni, phone } = req.body;
+
+    const updatedUser = await userService.updateUser(
+      id,
+      name,
+      email,
+      dni,
+      phone
+    );
+
+    responseHelper.ok(res, {
+      user: { ...updatedUser._doc, id: updatedUser.id },
+    });
+  } catch {
+    responseHelper.error(res);
+  }
+};
+
+// CHANGE PASSWORD
+const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword, id } = req.body;
+
+    await userService.changePassword(currentPassword, newPassword, id);
+
+    responseHelper.ok(res);
+  } catch {
+    responseHelper.error(res);
+  }
+};
+
 export default {
   admin,
   create,
@@ -219,4 +254,6 @@ export default {
   findUserByEmail,
   verifyToken,
   resetPassword,
+  updateUser,
+  changePassword,
 };

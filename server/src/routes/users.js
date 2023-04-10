@@ -1,6 +1,11 @@
 import express from "express";
 import userController from "../controllers/user.js";
-import { validateSignup, validateSignin } from "../validators/user.js";
+import {
+  validateSignup,
+  validateSignin,
+  validatePassword,
+  validateUpdate,
+} from "../validators/user.js";
 
 const router = express.Router();
 
@@ -29,6 +34,12 @@ router.get("/:email", userController.findUserByEmail);
 router.get("/verifyToken/:token", userController.verifyToken);
 
 // RESET PASSWORD
-router.post("/reset-password", userController.resetPassword);
+router.post("/reset-password", validatePassword, userController.resetPassword);
+
+// UPDATE USER
+router.put("/update/:id", validateUpdate, userController.updateUser);
+
+// CHANGE PASSWORD
+router.post("/change-password", userController.changePassword)
 
 export default router;

@@ -15,7 +15,7 @@ function Navbar({ user }) {
         <a
           href={currentPath === "/booking" ? null : "/booking"}
           className={
-            currentPath === "/booking" ? styles["link-active"] : styles.link
+            currentPath.startsWith("/booking") ? styles["link-active"] : styles.link
           }>
           Mis Reservas{" "}
           <svg
@@ -33,7 +33,7 @@ function Navbar({ user }) {
         <a
           href={currentPath === "/account" ? null : "/account"}
           className={
-            currentPath === "/account" ? styles["link-active"] : styles.link
+            currentPath.startsWith("/account") ? styles["link-active"] : styles.link
           }>
           Mi Cuenta
           <svg

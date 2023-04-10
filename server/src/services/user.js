@@ -89,7 +89,7 @@ const signup = async ({ name, dni, email, password }) => {
 const signin = async (email, password) => {
   const user = await userModel
     .findOne({ email })
-    .select("name dni email password role branch salt id");
+    .select("name dni email phone password role branch salt id");
 
   if (!user) return responseHelper.badrequest(res, "El usuario no existe.");
 
@@ -139,6 +139,36 @@ const deleteToken = async (token) => {
   await resetToken.deleteOne();
 };
 
+// UPDATE USER
+const updateUser = async (id, name, email, dni, phone) => {
+  const user = await userModel.findById(id);
+
+  if (!user) return responseHelper.notFound(res);
+
+  user.name = name || user.name;
+  user.email = email || user.email;
+  user.dni = dni || user.dni;
+  user.phone = phone || user.phone;
+
+  return await user.save();
+};
+
+// CHANGE PASSWORD
+const changePassword = async (currentPassword, newPassword, id) => {
+  const user = await userModel.findById(id).select("password salt");
+
+  if (!user) return responseHelper.badrequest(res, "El usuario no existe.");
+
+  if (!user.validPassword( currentPassword, user.salt ))
+    return responseHelper.badrequest(res, "La contraseña es incorrecta.");
+
+  user.setPassword(newPassword);
+
+  await user.save();
+
+  return user;
+};
+
 export default {
   admin,
   create,
@@ -147,5 +177,7 @@ export default {
   findUserByEmail,
   verifyToken,
   resetPassword,
-  deleteToken
+  deleteToken,
+  updateUser,
+  changePassword,
 };

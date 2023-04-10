@@ -15,16 +15,12 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     dispatch(loginAsync({ email, password }));
-    setLoading(false);
-    if (email && password && user === null) {
-      setError(true);
-    }
   };
 
   const togglePasswordVisibility = () => {
@@ -32,9 +28,9 @@ const LoginForm = () => {
   };
 
   useEffect(() => {
-    if (user?.role === "client") {
-      router.push("/booking/create");
-    }
+    if (user?.role === "client") router.push("/booking/create");
+    else if (user?.error) setShowError(true);
+    setLoading(false);
   }, [user]);
 
   return (
@@ -73,7 +69,7 @@ const LoginForm = () => {
             )}
           </div>
         </div>
-        {error && (
+        {showError && (
           <section className={styles.messageContainer}>
             <AiFillCloseCircle className={styles.crossIcon} />
             <div>

@@ -1,9 +1,11 @@
-import React from 'react'
+import ChangePasswordForm from "@/app/components/ChangePasswordForm";
 
 const page = () => {
   return (
-    <div>page</div>
-  )
-}
+    <section className="section-b">
+      <ChangePasswordForm />
+    </section>
+  );
+};
 
-export default page
+export default page;
