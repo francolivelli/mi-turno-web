@@ -18,9 +18,47 @@ const create = async ({
   branch.startTime = startTime;
   branch.endTime = endTime;
 
-  await branch.save()
+  await branch.save();
 
-  return branch
+  return branch;
 };
 
-export default { create };
+// GET BRANCHES
+const getAll = async () => {
+  const branches = await branchModel.find();
+
+  return branches;
+};
+
+// GET BRANCH
+const getOne = async (id) => {
+  const branch = await branchModel.findById(id);
+
+  return branch;
+};
+
+// UPDATE BRANCH
+const update = async (
+  id,
+  name,
+  email,
+  phone,
+  maxCapacity,
+  startTime,
+  endTime,
+) => {
+  const branch = await branchModel.findById(id);
+
+  if (!branch) return responseHelper.notFound(res);
+
+  branch.name = name || branch.name;
+  branch.email = email || branch.email;
+  branch.phone = phone || branch.phone;
+  branch.maxCapacity = maxCapacity || branch.maxCapacity;
+  branch.startTime = startTime || branch.startTime;
+  branch.endTime = endTime || branch.endTime;
+
+  return await branch.save();
+};
+
+export default { create, getAll, getOne, update };

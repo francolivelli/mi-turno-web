@@ -213,10 +213,8 @@ const resetPassword = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id)
-    const { name, email, dni, phone } = req.body;
 
-    console.log(id)
+    const { name, email, dni, phone } = req.body;
 
     const updatedUser = await usersService.update(
       id,

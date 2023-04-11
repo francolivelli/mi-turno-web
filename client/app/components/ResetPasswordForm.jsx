@@ -57,10 +57,8 @@ const ResetPasswordForm = () => {
 
   const handleSubmit = async (e) => {
     const token = searchParams.get("token");
-    
     e.preventDefault();
     setLoading(true);
-
     const response = await axios.post(
       "http://localhost:5000/api/users/reset-password",
       {

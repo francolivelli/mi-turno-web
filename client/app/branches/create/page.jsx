@@ -1,9 +1,9 @@
-import FormBranch from "../../components/FormBranch";
+import CreateBranchForm from "../../components/CreateBranchForm";
 
 export default function CreateBranchPage() {
   return (
     <section className="section-b">
-      <FormBranch />
+      <CreateBranchForm />
     </section>
   );
 }

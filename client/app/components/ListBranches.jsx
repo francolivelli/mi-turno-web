@@ -1,11 +1,22 @@
+"use client";
 import Link from "next/link";
-import Button from "../commons/Button";
 import styles from "../../styles/components/List.module.css";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-export default async function ListBranches() {
+const ListBranches = () => {
+  const [branches, setBranches] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios.get("http://localhost:5000/api/branches");
+      setBranches(response.data);
+    }
+    fetchData();
+  }, []);
 
   return (
-    <>
+    <div className={styles["list-container"]}>
       <h1 className={styles["list-title"]}>Sucursales</h1>
       <div className={styles.list}>
         {branches.map((branch) => (
@@ -16,26 +27,26 @@ export default async function ListBranches() {
             </div>
             <div className={`${styles["list-column"]} w22-5`}>
               <p className={styles["list-label"]}>Mail</p>
-              <p className={styles["list-content"]}>{branch.mail}</p>
+              <p className={styles["list-content"]}>{branch.email}</p>
             </div>
             <div className={`${styles["list-column"]} w22-5`}>
               <p className={styles["list-label"]}>Capacidad máxima</p>
-              <p className={styles["list-content"]}>{branch.maxShifts}</p>
+              <p className={styles["list-content"]}>{branch.maxCapacity}</p>
             </div>
             <div className={`${styles["list-column"]} w22-5`}>
-              <p className={styles["list-label"]}>Horario de Inicio y Cierre</p>
+              <p className={styles["list-label"]}>Horario de inicio y cierre</p>
               <p className={styles["list-content"]}>
                 {branch.startTime} - {branch.endTime}
               </p>
             </div>
-            <Link
-              className={`${styles["list-column"]} w10`}
-              href={`/branches/edit/${branch.id}`}>
-              <Button className={"btn-secondary"} title={"Editar"} />
+            <Link href={`/branches/edit?id=${branch.id}`}>
+              <button className={"btn-tertiary"}>Editar</button>
             </Link>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
-}
+};
+
+export default ListBranches;

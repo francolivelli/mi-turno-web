@@ -34,14 +34,10 @@ const MyData = () => {
     try {
       const { name, email, dni, phone } = userData;
 
-      console.log(name, email, dni, phone)
-
       const response = await axios.put(
         `http://localhost:5000/api/users/update/${userData.id}`,
         { name: name, email: email, dni: dni, phone: phone }
       );
-
-      console.log("holaaa")
 
       // Actualizamos los datos en localStorage
       localStorage.setItem("user", JSON.stringify(userData));
