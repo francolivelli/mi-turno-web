@@ -59,7 +59,7 @@ const create = async ({ name, dni, email, password, branch }) => {
 };
 
 // SIGNUP
-const signup = async ({ name, dni, email, password }) => {
+const signup = async ({ name, dni, email, password, role }) => {
   const checkDni = await userModel.findOne({ dni });
 
   if (checkDni)
@@ -78,6 +78,7 @@ const signup = async ({ name, dni, email, password }) => {
   user.name = name;
   user.dni = dni;
   user.email = email;
+  role ? (user.role = role) : null;
   user.setPassword(password);
 
   await user.save();
@@ -140,7 +141,7 @@ const deleteToken = async (token) => {
 };
 
 // UPDATE USER
-const updateUser = async (id, name, email, dni, phone) => {
+const update = async (id, name, email, dni, phone) => {
   const user = await userModel.findById(id);
 
   if (!user) return responseHelper.notFound(res);
@@ -159,7 +160,7 @@ const changePassword = async (currentPassword, newPassword, id) => {
 
   if (!user) return responseHelper.badrequest(res, "El usuario no existe.");
 
-  if (!user.validPassword( currentPassword, user.salt ))
+  if (!user.validPassword(currentPassword, user.salt))
     return responseHelper.badrequest(res, "La contraseña es incorrecta.");
 
   user.setPassword(newPassword);
@@ -178,6 +179,6 @@ export default {
   verifyToken,
   resetPassword,
   deleteToken,
-  updateUser,
+  update,
   changePassword,
 };

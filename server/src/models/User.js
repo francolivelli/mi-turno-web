@@ -21,7 +21,6 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: Number,
       required: false,
-      unique: true,
     },
     password: {
       type: String,
@@ -33,11 +32,6 @@ const userSchema = new mongoose.Schema(
     },
     branch: {
       type: String,
-    },
-    isLoggedIn: {
-      type: Boolean,
-      required: true,
-      default: false,
     },
     salt: {
       type: String,

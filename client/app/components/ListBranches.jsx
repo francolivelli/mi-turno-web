@@ -2,12 +2,7 @@ import Link from "next/link";
 import Button from "../commons/Button";
 import styles from "../../styles/components/List.module.css";
 
-const fetchBranches = () => {
-  return fetch("http://localhost:5000/api/branch").then((res) => res.json());
-};
-
 export default async function ListBranches() {
-  const branches = await fetchBranches();
 
   return (
     <>

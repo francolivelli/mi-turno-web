@@ -1,157 +1,152 @@
 "use client";
+import { useState } from "react";
+import styles from "../../styles/components/GeneralForm.module.css";
+import axios from "axios";
+import { AiOutlineCheckCircle } from "react-icons/ai";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import Button from "../commons/Button";
-import styles from "../../styles/components/Form.module.css";
+const startTimes = [
+  "07:00",
+  "07:30",
+  "08:00",
+  "08:30",
+  "09:00",
+  "09:30",
+  "10:00",
+];
+const endTimes = [
+  "17:00",
+  "17:30",
+  "18:00",
+  "18:30",
+  "19:00",
+  "19:30",
+  "20:00",
+];
 
-const startTimes = ["07:30", "08:00", "08:30", "09:00", "09:30", "10:00"];
-const endTimes = ["17:30", "18:00", "18:30", "19:00", "19:30", "20:00"];
+const CreateBranchForm = () => {
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [maxCapacity, setMaxCapacity] = useState("");
+  const [startTime, setStartTime] = useState(startTimes[0]);
+  const [endTime, setEndTime] = useState(endTimes[0]);
 
-export default function FormBranch({ branch = null, newMovie = true }) {
-  const router = useRouter();
-  const [form, setForm] = useState(branch);
-
-  useEffect(() => {
-    if (branch && branch.status) {
-      // pendiente un pop up
-      alert("Error. No se encontró la información de la sucursal");
-      router.back();
-    }
-  }, []);
-
-  const handleChange = (e) => {
-    const { value, name } = e.target;
-    setForm({ ...form, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (newMovie) {
-      fetch(`http://localhost:5000/api/branch`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      }).then(() => {
-        // pendiente pop up
-        alert("Sucursal creada con éxito");
-        router.back();
-      });
-    } else {
-      fetch(`http://localhost:5000/api/branch/${branch.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      }).then(() => {
-        // pendiente pop up
-        alert("Sucursal modificada con éxito");
-        router.back();
-      });
+    setLoading(true);
+
+    const response = await axios.post(
+      "http://localhost:5000/api/branches/create",
+      {
+        name,
+        email,
+        phone,
+        maxCapacity,
+        startTime,
+        endTime,
+      }
+    );
+
+    setLoading(false);
+
+    if (response.status === 201) {
+      setSuccess(true);
     }
   };
 
-  return !branch || !branch.status ? (
-    <form className={styles.form} onSubmit={handleSubmit}>
-      <h2 className={styles["form-title"]}>
-        {newMovie ? "Crear una nueva sucursal" : "Editar sucursal"}
-      </h2>
-      <div className={`${styles["form-input-group"]} w100`}>
-        <label className={styles["form-label"]}>Nombre</label>
-        <input
-          className="input w100"
-          required
-          type="text"
-          autoComplete="off"
-          name="name"
-          value={form ? form.name : ""}
-          onChange={handleChange}
-        />
-      </div>
-      <div className={`${styles["form-input-group"]} w100`}>
-        <label className={styles["form-label"]}>Correo electrónico</label>
-        <input
-          className="input w100"
-          required
-          type="email"
-          autoComplete="off"
-          name="mail"
-          value={form ? form.mail : ""}
-          onChange={handleChange}
-        />
-      </div>
-      <div className={styles["form-row"]}>
-        <div className={`${styles["form-input-group"]} w50`}>
-          <label className={styles["form-label"]}>Teléfono</label>
+  return (
+    <div className={styles.container}>
+      <h1 className={styles.title}>Crear una nueva sucursal</h1>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <div className="input__field">
+          <label className="input__label">Nombre</label>
           <input
-            className="input w100"
+            type="text"
             required
-            type="tel"
-            autoComplete="off"
-            name="phone"
-            value={form ? form.phone : ""}
-            onChange={handleChange}
+            className="input"
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <div className={`${styles["form-input-group"]} w50`}>
-          <label className={styles["form-label"]}>Capacidad máxima</label>
+        <div className="input__field">
+          <label className="input__label">Correo electrónico</label>
           <input
-            className="input w100"
+            type="email"
             required
-            type="number"
-            autoComplete="off"
-            name="maxShifts"
-            value={form ? form.maxShifts : 1}
-            onChange={handleChange}
+            className="input"
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-      </div>
-      <div className={styles["form-row"]}>
-        <div className={`${styles["form-input-group"]} w50`}>
-          <label className={styles["form-label"]}>Horario de Inicio</label>
-          <select
-            className="input w100"
-            required
-            name="startTime"
-            value={form ? form.startTime : ""}
-            onChange={handleChange}>
-            {startTimes.map((startTime, i) => (
-              <option key={i} value={startTime}>
-                {startTime}
-              </option>
-            ))}
-          </select>
+        <div className="input__rowContainer">
+          <div className="input__field">
+            <label className="input__label">Teléfono</label>
+            <input
+              type="tel"
+              required
+              className="input"
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
+          <div className="input__field">
+            <label className="input__label">Capacidad máxima</label>
+            <input
+              type="number"
+              min="1"
+              max="10"
+              required
+              className="input"
+              onChange={(e) => setMaxCapacity(e.target.value)}
+            />
+          </div>
         </div>
-        <div className={`${styles["form-input-group"]} w50`}>
-          <label className={styles["form-label"]}>Horario de Cierre</label>
-          <select
-            className="input w100"
-            required
-            name="endTime"
-            value={form ? form.endTime : ""}
-            onChange={handleChange}>
-            {endTimes.map((endTime, i) => (
-              <option key={i} value={endTime}>
-                {endTime}
-              </option>
-            ))}
-          </select>
+        <div className="input__rowContainer">
+          <div className="input__field">
+            <label className="input__label">Horario de inicio</label>
+            <select
+              type="text"
+              required
+              className="input"
+              onChange={(e) => setStartTime(e.target.value)}>
+              {startTimes.map((startTime, i) => (
+                <option key={i} value={startTime}>
+                  {startTime}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="input__field">
+            <label className="input__label">Horario de cierre</label>
+            <select
+              type="text"
+              required
+              className="input"
+              onChange={(e) => setEndTime(e.target.value)}>
+              {endTimes.map((endTime, i) => (
+                <option key={i} value={endTime}>
+                  {endTime}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-      </div>
-      <Button
-        className={"btn-primary w100"}
-        title={newMovie ? "Agregar" : "Editar"}
-        type="submit"
-      />
-      <Link className="w100" href="/branches">
-        <Button className={"btn-tertiary w100"} title={"Volver"} />
-      </Link>
-    </form>
-  ) : (
-    ""
+        <button
+          className={"btn-primary w100"}
+          style={success ? { backgroundColor: "#00a541" } : {}}
+          type="submit">
+          {success ? (
+            <AiOutlineCheckCircle
+              style={{ color: "#fff", fontSize: "1.5rem" }}
+            />
+          ) : loading ? (
+            <span className="spinner" />
+          ) : (
+            "Enviar"
+          )}
+        </button>
+      </form>
+    </div>
   );
-}
+};
+
+export default CreateBranchForm;

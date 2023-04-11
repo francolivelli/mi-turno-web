@@ -1,5 +1,5 @@
 import responseHelper from "../helpers/response.helper.js";
-import userService from "../services/user.js";
+import usersService from "../services/users.js";
 import {
   generatePasswordResetToken,
   generateToken,
@@ -13,7 +13,7 @@ const admin = async (req, res) => {
   try {
     const { name, dni, email, password } = req.body;
 
-    const admin = await userService.admin({ name, dni, email, password });
+    const admin = await usersService.admin({ name, dni, email, password });
 
     responseHelper.created(res, {
       ...admin._doc,
@@ -29,7 +29,7 @@ const create = async (req, res) => {
   try {
     const { name, dni, email, password, branch } = req.body;
 
-    const user = await userService.create({
+    const user = await usersService.create({
       name,
       dni,
       email,
@@ -49,9 +49,9 @@ const create = async (req, res) => {
 // SIGNUP
 const signup = async (req, res) => {
   try {
-    const { name, dni, email, password } = req.body;
+    const { name, dni, email, password, role } = req.body;
 
-    const user = await userService.signup({ name, dni, email, password });
+    const user = await usersService.signup({ name, dni, email, password, role });
 
     user.password = undefined;
     user.salt = undefined;
@@ -70,7 +70,7 @@ const signin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await userService.signin(email, password);
+    const user = await usersService.signin(email, password);
 
     const token = generateToken(user);
 
@@ -104,7 +104,7 @@ const forgotPassword = async (req, res) => {
 
   try {
     // Buscar usuario por correo electrónico
-    const user = await userService.findUserByEmail(email);
+    const user = await usersService.findUserByEmail(email);
 
     // Manejar el caso en que no se encuentra ningún usuario con ese correo electrónico
     if (!user) {
@@ -165,7 +165,7 @@ const findUserByEmail = async (req, res) => {
   try {
     const { email } = req.body;
 
-    const user = await userService.findUserByEmail(email);
+    const user = await usersService.findUserByEmail(email);
 
     responseHelper.ok(res, user);
   } catch (error) {
@@ -178,7 +178,7 @@ const verifyToken = async (req, res) => {
   const token = req.params.token;
 
   try {
-    const tokenRecord = await userService.verifyToken(token);
+    const tokenRecord = await usersService.verifyToken(token);
 
     if (tokenRecord && token === tokenRecord.token) {
       // el token es válido, mostrar la página para restablecer la contraseña
@@ -197,11 +197,11 @@ const resetPassword = async (req, res) => {
   try {
     const { token, password } = req.body;
 
-    const resetToken = await userService.verifyToken(token);
+    const resetToken = await usersService.verifyToken(token);
 
-    await userService.resetPassword(resetToken.user_id, password);
+    await usersService.resetPassword(resetToken.user_id, password);
 
-    await userService.deleteToken(token);
+    await usersService.deleteToken(token);
 
     responseHelper.ok(res);
   } catch {
@@ -210,12 +210,15 @@ const resetPassword = async (req, res) => {
 };
 
 // UPDATE USER
-const updateUser = async (req, res) => {
+const update = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id)
     const { name, email, dni, phone } = req.body;
 
-    const updatedUser = await userService.updateUser(
+    console.log(id)
+
+    const updatedUser = await usersService.update(
       id,
       name,
       email,
@@ -236,7 +239,7 @@ const changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword, id } = req.body;
 
-    await userService.changePassword(currentPassword, newPassword, id);
+    await usersService.changePassword(currentPassword, newPassword, id);
 
     responseHelper.ok(res);
   } catch {
@@ -254,6 +257,6 @@ export default {
   findUserByEmail,
   verifyToken,
   resetPassword,
-  updateUser,
+  update,
   changePassword,
 };

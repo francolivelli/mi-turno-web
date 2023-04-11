@@ -7,7 +7,7 @@ const branchSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    mail: {
+    email: {
       type: String,
       required: true,
     },
@@ -15,11 +15,7 @@ const branchSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    active: {
-      type: Boolean,
-      default: true,
-    },
-    maxShifts: {
+    maxCapacity: {
       type: Number,
       required: true,
     },

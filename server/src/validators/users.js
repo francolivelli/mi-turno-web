@@ -120,6 +120,7 @@ export const validateUpdate = [
     if (/\D/.test(value)) {
       throw new Error("Phone number should not include letters.");
     } else {
+      console.log("HOLAAA")
       return true;
     }
   }),

@@ -4,8 +4,9 @@
   align-items: flex-start;
   padding: 2rem 2.5rem;
   gap: 1.75rem;
-  width: 679px;
+  width: 58%;
   border-radius: 8px;
+  background-color: var(--color-white);
 }
 
 .header {

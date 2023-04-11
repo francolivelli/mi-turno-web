@@ -1,114 +1,75 @@
-import React from "react";
 import styles from "../../styles/components/Calendar.module.css";
 
-function Calendar() {
+const Calendar = () => {
+  // Creamos un objeto Date con la fecha actual
+  const currentDate = new Date();
+
+  // Obtenemos el nombre del mes y el año actual
+  const currentMonth = currentDate
+    .toLocaleString("es-AR", { month: "long" })
+    .replace(/^\w/, (c) => c.toUpperCase());
+  const currentYear = currentDate.getFullYear();
+
+  // Creamos el título con el mes y el año actual
+  const title = `${currentMonth} ${currentYear}`;
+
+  const days = ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"];
+
+  // Obtenemos la cantidad de días del mes actual
+  const numDays = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0
+  ).getDate();
+
+  // Obtenemos el día de la semana en que comienza el mes actual (0: domingo, 1: lunes, etc.)
+  const firstDay = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  ).getDay();
+
+  // Creamos un arreglo con los días del mes en curso
+  const monthDays = Array.from({ length: numDays }, (_, i) => i + 1);
+
+  // Agregamos los días del mes anterior para completar la primera semana
+  const prevMonthDays = Array.from({ length: firstDay }, (_, i) =>
+    new Date(currentDate.getFullYear(), currentDate.getMonth(), 0 - i).getDate()
+  ).reverse();
+
+  // Obtenemos el día de la semana en que termina el mes actual (0: domingo, 1: lunes, etc.)
+  const lastDay = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0
+  ).getDay();
+
+  // Agregamos los días del mes siguiente para completar la última semana
+  const nextMonthDays = Array.from({ length: 6 - lastDay }, (_, i) => i + 1);
+
+  const allDays = [...prevMonthDays, ...monthDays, ...nextMonthDays];
+
   return (
-    <div className={styles.cajaCalendar}>
-      <h1 className={styles.titulo}>Marzo 2024</h1>
-      <div className={styles.filas}>
-        <li className={styles.nombreDia}>Lun</li>
-        <li className={styles.nombreDia}>Mar</li>
-        <li className={styles.nombreDia}>Mie</li>
-        <li className={styles.nombreDia}>Jue</li>
-        <li className={styles.nombreDia}>Vie</li>
-        <li className={styles.nombreDia}>Sad</li>
-        <li className={styles.nombreDia}>Dom</li>
-        <div className={styles.cajaDia}>
-          <li className={styles.primerDia}>1</li>
+    <div className={styles.container}>
+      <h2 className={styles.title}>{title}</h2>
+      <div className={styles.calendar}>
+        <div className={styles.daysContainer}>
+          {days.map((day, index) => (
+            <p key={index} className={styles.day}>
+              {day}
+            </p>
+          ))}
         </div>
-        <div className={styles.cajaDia}>
-          <li>2</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>3</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>4</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>5</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>6</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>7</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>8</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>9</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>10</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>11</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>12</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>13</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>14</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>15</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>16</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>17</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>18</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>19</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>20</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>21</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>22</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>23</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>24</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>25</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>26</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>27</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>28</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>29</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>30</li>
-        </div>
-        <div className={styles.cajaDia}>
-          <li>31</li>
+        <div className={styles.grid}>
+          {allDays.map((day, index) => (
+            <p key={index} className={styles.cell}>
+              {day}
+            </p>
+          ))}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Calendar;

@@ -28,7 +28,8 @@ const LoginForm = () => {
   };
 
   useEffect(() => {
-    if (user?.role === "client") router.push("/booking/create");
+    if (user?.role === "client") router.push("/booking/create")
+    if (user?.role === "admin") router.push("/branches");
     else if (user?.error) setShowError(true);
     setLoading(false);
   }, [user]);

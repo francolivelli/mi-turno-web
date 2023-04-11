@@ -3,6 +3,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 .container div {
@@ -10,13 +11,13 @@
 }
 
 .arm {
-  width: 5.239375rem;
+  width: 42%;
   height: 0.125rem;
 }
 
 .main {
-  width: 2rem;
-  height: 2rem;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   font-weight: 600;
   font-size: 14px;

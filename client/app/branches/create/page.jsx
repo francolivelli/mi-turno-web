@@ -2,7 +2,7 @@ import FormBranch from "../../components/FormBranch";
 
 export default function CreateBranchPage() {
   return (
-    <section className="section bg-grey2">
+    <section className="section-b">
       <FormBranch />
     </section>
   );

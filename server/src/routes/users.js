@@ -1,45 +1,45 @@
 import express from "express";
-import userController from "../controllers/user.js";
+import usersController from "../controllers/users.js";
 import {
   validateSignup,
   validateSignin,
   validatePassword,
   validateUpdate,
-} from "../validators/user.js";
+} from "../validators/users.js";
 
 const router = express.Router();
 
 // CREATE ADMIN
-router.post("/admin", validateSignup, userController.admin);
+router.post("/admin", validateSignup, usersController.admin);
 
 // CREATE USER / OPERATOR
-router.post("/create", validateSignup, userController.create);
+router.post("/create", validateSignup, usersController.create);
 
 // SIGNUP
-router.post("/signup", validateSignup, userController.signup);
+router.post("/signup", validateSignup, usersController.signup);
 
 // SIGNIN
-router.post("/signin", validateSignin, userController.signin);
+router.post("/signin", validateSignin, usersController.signin);
 
 // SIGNOUT
-router.post("/signout", userController.signout);
+router.post("/signout", usersController.signout);
 
 //FORGOT PASSWORD
-router.post("/forgot-password", userController.forgotPassword);
+router.post("/forgot-password", usersController.forgotPassword);
 
 // FIND USER BY EMAIL
-router.get("/:email", userController.findUserByEmail);
+router.get("/:email", usersController.findUserByEmail);
 
 //VERIFY TOKEN
-router.get("/verifyToken/:token", userController.verifyToken);
+router.get("/verifyToken/:token", usersController.verifyToken);
 
 // RESET PASSWORD
-router.post("/reset-password", validatePassword, userController.resetPassword);
+router.post("/reset-password", validatePassword, usersController.resetPassword);
 
 // UPDATE USER
-router.put("/update/:id", validateUpdate, userController.updateUser);
+router.put("/update/:id", validateUpdate, usersController.update);
 
 // CHANGE PASSWORD
-router.post("/change-password", userController.changePassword)
+router.post("/change-password", usersController.changePassword)
 
 export default router;

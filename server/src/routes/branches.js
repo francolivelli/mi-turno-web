@@ -1,11 +1,10 @@
 import express from "express";
-import BranchController from "../controllers/branch.js";
+import branchesController from "../controllers/branches.js";
+import { validateBranch } from "../validators/branches.js";
 
 const router = express.Router();
 
-router.get("/", BranchController.getAll);
-router.get("/:id", BranchController.getById);
-router.post("/", BranchController.create);
-router.put("/:id", BranchController.update);
+// CREATE BRANCH
+router.post("/create", validateBranch, branchesController.create)
 
 export default router;
