@@ -1,9 +1,11 @@
 import ListOperators from "../components/ListOperators";
 
-export default async function OperatorsPage() {
+const OperatorsPage = () => {
   return (
-    <section className="section">
+    <section className="section-a">
       <ListOperators />
     </section>
   );
-}
+};
+
+export default OperatorsPage;

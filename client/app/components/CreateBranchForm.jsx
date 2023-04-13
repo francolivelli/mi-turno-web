@@ -57,8 +57,12 @@ const CreateBranchForm = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Crear una nueva sucursal</h1>
+    <div className={styles.container} style={{ width: "64%" }}>
+      <h1
+        className={styles.title}
+        style={{ textAlign: "left", fontSize: "20px" }}>
+        Crear una nueva sucursal
+      </h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className="input__field">
           <label className="input__label">Nombre</label>

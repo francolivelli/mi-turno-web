@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import styles from "../../styles/components/GeneralForm.module.css";
 import axios from "axios";
 import { AiOutlineCheckCircle } from "react-icons/ai";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { MdArrowBack } from "react-icons/md";
 
 const startTimes = [
   "07:00",
@@ -36,6 +37,7 @@ const EditBranchForm = () => {
   const [endTime, setEndTime] = useState("");
   const searchParams = useSearchParams();
   const branchId = searchParams.get("id");
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchData() {
@@ -61,7 +63,7 @@ const EditBranchForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     const response = await axios.put(
       `http://localhost:5000/api/branches/update/${branchId}`,
       { name, email, phone, maxCapacity, startTime, endTime }
@@ -75,8 +77,18 @@ const EditBranchForm = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Editar sucursal</h1>
+    <div className={styles.container} style={{ width: "64%" }}>
+      <div className={styles.header} style={{ gap: "20px" }}>
+        <div className={`${styles.back} link`} onClick={() => router.back()}>
+          <MdArrowBack />
+          <p>Atrás</p>
+        </div>
+        <h1
+          className={styles.title}
+          style={{ textAlign: "left", fontSize: "20px" }}>
+          Editar sucursal
+        </h1>
+      </div>
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className="input__field">
           <label className="input__label">Nombre</label>

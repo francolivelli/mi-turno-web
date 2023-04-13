@@ -40,6 +40,12 @@ router.post("/reset-password", validatePassword, usersController.resetPassword);
 router.put("/update/:id", validateUpdate, usersController.update);
 
 // CHANGE PASSWORD
-router.post("/change-password", usersController.changePassword)
+router.post("/change-password", usersController.changePassword);
+
+// GET OPERATORS
+router.get("/", usersController.getOperators);
+
+// GET OPERATOR
+router.get("/operator/:id", usersController.getOperator);
 
 export default router;

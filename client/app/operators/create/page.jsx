@@ -1,9 +1,9 @@
-import FormOperator from "../../components/FormOperator";
+import CreateOperatorForm from "@/app/components/CreateOperatorForm";
 
 export default function CreateOperatorPage() {
   return (
-    <section className="section bg-grey2">
-      <FormOperator />
+    <section className="section-b">
+      <CreateOperatorForm />
     </section>
   );
 }

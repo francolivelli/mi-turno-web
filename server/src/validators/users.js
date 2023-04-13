@@ -116,14 +116,15 @@ export const validateUpdate = [
     .withMessage("Email is required.")
     .isEmail()
     .withMessage("A valid email is required."),
-  check("phone").custom((value) => {
-    if (/\D/.test(value)) {
-      throw new Error("Phone number should not include letters.");
-    } else {
-      console.log("HOLAAA")
-      return true;
-    }
-  }),
+  check("phone")
+    .optional()
+    .custom((value) => {
+      if (/\D/.test(value)) {
+        throw new Error("Phone number should not include letters.");
+      } else {
+        return true;
+      }
+    }),
   (req, res, next) => {
     validate(req, res, next);
   },

@@ -9,6 +9,12 @@
   height: 4.75rem;
 }
 
+.buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+}
+
 .options {
   display: flex;
   flex-direction: row;

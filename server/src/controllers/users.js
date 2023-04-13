@@ -51,7 +51,13 @@ const signup = async (req, res) => {
   try {
     const { name, dni, email, password, role } = req.body;
 
-    const user = await usersService.signup({ name, dni, email, password, role });
+    const user = await usersService.signup({
+      name,
+      dni,
+      email,
+      password,
+      role,
+    });
 
     user.password = undefined;
     user.salt = undefined;
@@ -163,7 +169,7 @@ const forgotPassword = async (req, res) => {
 // FIND USER BY EMAIL
 const findUserByEmail = async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email } = req.params;
 
     const user = await usersService.findUserByEmail(email);
 
@@ -214,14 +220,15 @@ const update = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const { name, email, dni, phone } = req.body;
+    const { name, email, dni, phone, branch } = req.body;
 
     const updatedUser = await usersService.update(
       id,
       name,
       email,
       dni,
-      phone
+      phone,
+      branch
     );
 
     responseHelper.ok(res, {
@@ -245,6 +252,30 @@ const changePassword = async (req, res) => {
   }
 };
 
+// GET OPERATORS
+const getOperators = async (req, res) => {
+  try {
+    const operators = await usersService.getOperators();
+
+    responseHelper.ok(res, operators);
+  } catch {
+    responseHelper.error(res);
+  }
+};
+
+// GET OPERATOR
+const getOperator = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const operator = await usersService.getOperator(id);
+
+    responseHelper.ok(res, operator);
+  } catch {
+    responseHelper.error(res);
+  }
+};
+
 export default {
   admin,
   create,
@@ -257,4 +288,6 @@ export default {
   resetPassword,
   update,
   changePassword,
+  getOperators,
+  getOperator,
 };

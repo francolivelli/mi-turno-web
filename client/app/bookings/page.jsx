@@ -1,4 +1,4 @@
-import ListBookings from "../../components/ListBookings";
+import ListBookings from "../components/ListBookings";
 
 export default async function BookingsPage() {
   return (

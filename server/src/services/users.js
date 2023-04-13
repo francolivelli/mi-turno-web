@@ -141,7 +141,7 @@ const deleteToken = async (token) => {
 };
 
 // UPDATE USER
-const update = async (id, name, email, dni, phone) => {
+const update = async (id, name, email, dni, phone, branch) => {
   const user = await userModel.findById(id);
 
   if (!user) return responseHelper.notFound(res);
@@ -149,7 +149,19 @@ const update = async (id, name, email, dni, phone) => {
   user.name = name || user.name;
   user.email = email || user.email;
   user.dni = dni || user.dni;
-  user.phone = phone || user.phone;
+
+  if (phone) {
+    user.phone = phone;
+  } else if (!phone && user.phone === undefined) {
+    user.phone = "";
+  }
+
+  if (branch !== null && branch !== undefined) {
+    user.branch = branch;
+    user.role = "operator";
+  } else if (branch === null || branch === undefined) {
+    user.role = "client";
+  }
 
   return await user.save();
 };
@@ -170,6 +182,20 @@ const changePassword = async (currentPassword, newPassword, id) => {
   return user;
 };
 
+// GET OPERATORS
+const getOperators = async () => {
+  const operators = await userModel.find({ role: "operator" });
+
+  return operators;
+};
+
+// GET OPERATOR
+const getOperator = async (id) => {
+  const operator = await userModel.findById({ _id: id });
+
+  return operator;
+};
+
 export default {
   admin,
   create,
@@ -181,4 +207,6 @@ export default {
   deleteToken,
   update,
   changePassword,
+  getOperators,
+  getOperator,
 };
