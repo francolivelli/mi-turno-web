@@ -1,20 +1,17 @@
 import styles from "../../styles/components/ProgressBar.module.css";
 import Step from "../commons/Step";
 
-const ProgressBar = () => {
+const ProgressBar = ({ step }) => {
   return (
     <div className={styles.container}>
       <div className={styles.step}>
-        <Step />
-        <p className={styles.text}>Elegí tu sucursal</p>
+        <Step number={1} active={step === 1} text="Elegí tu sucursal" />
       </div>
       <div className={styles.step}>
-        <Step />
-        <p className={styles.text}>Seleccioná el día</p>
+        <Step number={2} active={step === 2} text="Seleccioná el día" />
       </div>
       <div className={styles.step}>
-        <Step />
-        <p className={styles.text}>Completá el formulario</p>
+        <Step number={3} active={step === 3} text="Completá el formulario" />
       </div>
     </div>
   );

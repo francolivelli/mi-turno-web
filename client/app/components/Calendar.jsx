@@ -1,4 +1,9 @@
+"use client";
 import styles from "../../styles/components/Calendar.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setDate } from "../features/dateSlice";
+import { useEffect, useState } from "react";
+import { setCurrentStep } from "../features/stepSlice";
 
 const Calendar = () => {
   // Creamos un objeto Date con la fecha actual
@@ -47,24 +52,88 @@ const Calendar = () => {
   // Agregamos los días del mes siguiente para completar la última semana
   const nextMonthDays = Array.from({ length: 6 - lastDay }, (_, i) => i + 1);
 
-  const allDays = [...prevMonthDays, ...monthDays, ...nextMonthDays];
+  const step = useSelector((state) => state.step.currentStep);
+
+  const dispatch = useDispatch();
+
+  const [initialSelectedCell, setInitialSelectedCell] = useState(null);
+  const [selectedCell, setSelectedCell] = useState(null);
+
+  useEffect(() => {
+    if (step === 1) {
+      setSelectedCell(null);
+      setInitialSelectedCell(null);
+    }
+  }, [step]);
+
+  useEffect(() => {
+    if (step === 1) {
+      setSelectedCell(initialSelectedCell);
+    }
+  }, [step]);
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>{title}</h2>
+      <h2 className={step > 1 ? styles.activeTitle : styles.title}>{title}</h2>
       <div className={styles.calendar}>
         <div className={styles.daysContainer}>
           {days.map((day, index) => (
-            <p key={index} className={styles.day}>
+            <p key={index} className={step > 1 ? styles.activeDay : styles.day}>
               {day}
             </p>
           ))}
         </div>
         <div className={styles.grid}>
-          {allDays.map((day, index) => (
-            <p key={index} className={styles.cell}>
+          {prevMonthDays.map((day, index) => (
+            <div key={index} className={styles.cell}>
               {day}
-            </p>
+            </div>
+          ))}
+          {monthDays.map((day, index) => {
+            const cellClass = step > 1 ? styles.activeCell : styles.cell;
+            const date = new Date(
+              currentDate.getFullYear(),
+              currentDate.getMonth(),
+              day
+            );
+            const formattedDate = date.toLocaleDateString("es-AR", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            });
+            if (date.getDay() === 0) {
+              return (
+                <div key={index} className={styles.cell}>
+                  {day}
+                </div>
+              );
+            } else {
+              const isSelected = formattedDate === selectedCell;
+              const className = isSelected
+                ? `${cellClass} ${styles.selectedCell}`
+                : cellClass;
+              const onClickFunction =
+                step > 1
+                  ? () => {
+                      dispatch(setDate({ date: formattedDate }));
+                      dispatch(setCurrentStep(3));
+                      setSelectedCell(formattedDate);
+                    }
+                  : null;
+              return (
+                <div
+                  key={index}
+                  className={className}
+                  onClick={onClickFunction}>
+                  {day}
+                </div>
+              );
+            }
+          })}
+          {nextMonthDays.map((day, index) => (
+            <div key={index} className={styles.cell}>
+              {day}
+            </div>
           ))}
         </div>
       </div>
