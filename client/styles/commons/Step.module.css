@@ -38,6 +38,7 @@
   font-size: 14px;
   line-height: 20px;
   color: var(--color-grey4);
+  text-align: center;
 }
 
 .activeArm {
@@ -65,6 +66,7 @@
   font-size: 14px;
   line-height: 20px;
   color: var(--color-primary);
+  text-align: center;
 }
 
 .successArm{
@@ -93,4 +95,5 @@
   font-size: 14px;
   line-height: 20px;
   color: var(--color-success);
+  text-align: center;
 }

@@ -8,6 +8,9 @@
   background-color: var(--color-white);
   gap: 26px;
   height: fit-content;
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .title {
@@ -91,4 +94,75 @@
   color: var(--color-white);
   cursor: pointer;
   background-color: var(--color-primary);
+}
+
+/* ========== TABLET MEDIA QUERIES ========== */
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .container {
+    width: 75%;
+    padding: 10px;
+    gap: 13px;
+  }
+
+  .activeTitle {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .calendar {
+    gap: 8px;
+  }
+
+  .activeDay {
+    font-weight: 400;
+    font-size: 15px;
+    padding: 6px;
+    color: var(--color-grey7);
+  }
+
+  .cell {
+    font-size: 14px;
+  }
+
+  .activeCell {
+    font-size: 14px;
+  }
+}
+
+/* ========== MOBILE MEDIA QUERIES ========== */
+
+@media (max-width: 480px) {
+  .container {
+    width: 100%;
+    padding: 0px;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .activeTitle {
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .calendar {
+    gap: 6px;
+  }
+
+  .activeDay {
+    font-weight: 400;
+    font-size: 12px;
+    padding: 6px;
+    color: var(--color-grey7);
+  }
+
+  .cell {
+    font-size: 10px;
+  }
+
+  .activeCell {
+    font-size: 10px;
+  }
 }

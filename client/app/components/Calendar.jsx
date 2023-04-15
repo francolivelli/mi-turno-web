@@ -9,6 +9,13 @@ const Calendar = () => {
   // Creamos un objeto Date con la fecha actual
   const currentDate = new Date();
 
+  // Fecha actual desde la hora 0
+  const today = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    currentDate.getDate()
+  );
+
   // Obtenemos el nombre del mes y el año actual
   const currentMonth = currentDate
     .toLocaleString("es-AR", { month: "long" })
@@ -56,19 +63,19 @@ const Calendar = () => {
 
   const dispatch = useDispatch();
 
-  const [initialSelectedCell, setInitialSelectedCell] = useState(null);
-  const [selectedCell, setSelectedCell] = useState(null);
+  const [initialSelectedDate, setInitialSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
     if (step === 1) {
-      setSelectedCell(null);
-      setInitialSelectedCell(null);
+      setSelectedDate(null);
+      setInitialSelectedDate(null);
     }
   }, [step]);
 
   useEffect(() => {
-    if (step === 1) {
-      setSelectedCell(initialSelectedCell);
+    if (step === 1 || step === 2) {
+      setSelectedDate(initialSelectedDate);
     }
   }, [step]);
 
@@ -101,34 +108,28 @@ const Calendar = () => {
               month: "2-digit",
               year: "numeric",
             });
-            if (date.getDay() === 0) {
-              return (
-                <div key={index} className={styles.cell}>
-                  {day}
-                </div>
-              );
-            } else {
-              const isSelected = formattedDate === selectedCell;
-              const className = isSelected
-                ? `${cellClass} ${styles.selectedCell}`
-                : cellClass;
-              const onClickFunction =
-                step > 1
-                  ? () => {
-                      dispatch(setDate({ date: formattedDate }));
-                      dispatch(setCurrentStep(3));
-                      setSelectedCell(formattedDate);
-                    }
-                  : null;
-              return (
-                <div
-                  key={index}
-                  className={className}
-                  onClick={onClickFunction}>
-                  {day}
-                </div>
-              );
-            }
+            const isSelected = formattedDate === selectedDate;
+            const className = isSelected
+              ? `${cellClass} ${styles.selectedCell}`
+              : cellClass;
+            const onClickFunction =
+              step > 1
+                ? () => {
+                    dispatch(setDate({ date: formattedDate }));
+                    dispatch(setCurrentStep(3));
+                    setSelectedDate(formattedDate);
+                  }
+                : null;
+            return (
+              <div
+                key={index}
+                className={
+                  date < today || date.getDay() === 0 ? styles.cell : className
+                }
+                onClick={onClickFunction}>
+                {day}
+              </div>
+            );
           })}
           {nextMonthDays.map((day, index) => (
             <div key={index} className={styles.cell}>

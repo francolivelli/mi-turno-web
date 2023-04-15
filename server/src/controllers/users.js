@@ -169,7 +169,7 @@ const forgotPassword = async (req, res) => {
 // FIND USER BY EMAIL
 const findUserByEmail = async (req, res) => {
   try {
-    const { email } = req.params;
+    const { email } = req.params || req.body;
 
     const user = await usersService.findUserByEmail(email);
 

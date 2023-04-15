@@ -20,3 +20,46 @@
   width: 100%;
   justify-content: space-between;
 }
+
+/* ========== TABLET MEDIA QUERIES ========== */
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .container {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    margin: 30px 0px;
+    align-items: flex-start;
+  }
+
+  .components {
+    display: flex;
+    flex-direction: row;
+    margin-top: 24px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ========== MOBILE MEDIA QUERIES ========== */
+
+@media (max-width: 480px) {
+  .container {
+    width: 90%;
+    margin: 25px 0px;
+  }
+
+  .title {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 20px;
+  }
+
+  .components {
+    display: flex;
+    flex-direction: row;
+    margin-top: 24px;
+    width: 100%;
+    justify-content: center;
+  }
+}
