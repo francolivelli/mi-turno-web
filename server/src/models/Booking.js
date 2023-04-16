@@ -1,11 +1,18 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import modelOptions from "./model.options.js";
 
 const bookingSchema = new mongoose.Schema(
   {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: Number,
       required: true,
     },
     branch: {
@@ -17,9 +24,14 @@ const bookingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    status: {
+    time: {
       type: String,
       required: true,
+    },
+    status: {
+      type: Boolean,
+      required: true,
+      default: true
     },
   },
   modelOptions
