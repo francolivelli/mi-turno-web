@@ -10,6 +10,7 @@ import axios from "axios";
 import moment from "moment";
 import { selectDate } from "../features/dateSlice";
 import { useRouter } from "next/navigation";
+import { selectUser } from "../features/userSlice";
 
 const BookingPanel = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,10 @@ const BookingPanel = () => {
   const [endTime, setEndTime] = useState(null);
   const [turns, setTurns] = useState([]);
   const date = useSelector(selectDate);
+  const user = useSelector(selectUser);
   const router = useRouter();
+
+  console.log(formInputs)
 
   useEffect(() => {
     const fetchBranches = async () => {
@@ -108,7 +112,12 @@ const BookingPanel = () => {
   useEffect(() => {
     const generateNewTurns = async () => {
       if (startTime && endTime && date && selectedBranch) {
-        const newTurns = await generateTurns(startTime, endTime, date, selectedBranch);
+        const newTurns = await generateTurns(
+          startTime,
+          endTime,
+          date,
+          selectedBranch
+        );
         setTurns(newTurns);
       }
     };
@@ -119,6 +128,7 @@ const BookingPanel = () => {
     const userData = JSON.parse(localStorage.getItem("user"));
     if (userData) {
       setFormInputs({
+        userId: user.id,
         date: date,
         branch: selectedBranch,
         name: userData.name,
@@ -157,7 +167,8 @@ const BookingPanel = () => {
     );
 
     if (response.status === 201) {
-      router.push("/bookings/confirmation");
+      const bookingId = response.data.id;
+      router.push(`/bookings/confirmation?id=${bookingId}`);
     }
   };
 

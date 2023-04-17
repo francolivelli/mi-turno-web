@@ -3,8 +3,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  margin: -0.75rem 0rem 3.5rem;
+  align-self: center;
+  width: 85%;
+  margin: 36px 0px 56px;
   gap: 1.5rem;
 }
 
@@ -15,10 +16,11 @@
 }
 
 .gratitude__title {
-    font-weight: 600;
-    font-size: 26px;
-    line-height: 32px;
-    color: var(--color-primary);
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 32px;
+  color: var(--color-primary);
+  text-align: center;
 }
 
 .gratitude__text {
@@ -26,4 +28,51 @@
   font-size: 14px;
   line-height: 20px;
   text-align: center;
+}
+
+/* ========== TABLET MEDIA QUERIES ========== */
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .gratitude{
+    margin: 36px 0px;
+  }
+
+  .gratitude__icon {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .gratitude__title {
+    font-size: 22px;
+    line-height: 28px;
+  }
+
+  .gratitude__text {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+/* ========== MOBILE MEDIA QUERIES ========== */
+
+@media (max-width: 480px) {
+  .gratitude {
+    margin: 24px 0px;
+    width: 90%;
+  }
+
+  .gratitude__icon {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+
+  .gratitude__title {
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .gratitude__text {
+    font-size: 12px;
+    line-height: 18px;
+  }
 }

@@ -17,6 +17,8 @@ const ok = (res, data) => responseWithData(res, 200, data);
 
 const created = (res, data) => responseWithData(res, 201, data);
 
+const deleted = (res) => responseWithData(res, 204);
+
 const unauthorized = (res) =>
   responseWithData(res, 401, {
     status: 401,
@@ -29,4 +31,4 @@ const notFound = (res) =>
     message: "Resource not found",
   });
 
-export default { error, badrequest, ok, created, unauthorized, notFound };
+export default { error, badrequest, ok, created, deleted, unauthorized, notFound };

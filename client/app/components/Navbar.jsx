@@ -80,9 +80,9 @@ function Navbar({ user }) {
           )}
           {user.role === "client" && (
             <a
-              href={currentPath === "/booking/list" ? null : "/booking/list"}
+              href={currentPath === "/bookings" ? null : "/bookings"}
               className={
-                currentPath === "/booking/list"
+                currentPath === "/bookings"
                   ? styles["link-active"]
                   : styles.link
               }>

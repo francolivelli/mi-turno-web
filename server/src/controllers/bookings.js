@@ -1,10 +1,12 @@
 import bookingsService from "../services/bookings.js";
 import responseHelper from "../helpers/response.helper.js";
+import nodemailer from "nodemailer";
+import branchesService from "../services/branches.js";
 
 // BOOK
 const create = async (req, res) => {
   try {
-    const { name, email, phone, branch, date, time } = req.body;
+    const { name, email, phone, branch, date, time, userId } = req.body;
 
     const newBooking = await bookingsService.create({
       name,
@@ -13,7 +15,30 @@ const create = async (req, res) => {
       branch,
       date,
       time,
+      userId
     });
+
+    const selectedBranch = await branchesService.getOne(branch);
+
+    // Configurar nodemailer para enviar el correo electrónico
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    // Definir las opciones del correo electrónico
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Detalles de la reserva",
+      text: `Hola,\n\nNos complace confirmar que hemos registrado su reserva.\n\nPor favor, revise los detalles de la misma a continuación:\n\nNombre: ${name}\nEmail: ${email}\nTeléfono: ${phone}\nSucursal: ${selectedBranch.name}\nFecha: ${date}\nHora: ${time}\n\n¡Gracias por utilizar nuestro servicio!\n\nAtentamente,\nMi Turno Web`,
+    };
+
+    // Enviar correo electrónico
+    transporter.sendMail(mailOptions);
 
     responseHelper.created(res, {
       ...newBooking._doc,
@@ -31,16 +56,42 @@ const getByBranchAndDate = async (req, res) => {
 
     const dateParts = date.split("-");
     const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
-    
+
     const turns = await bookingsService.getByBranchAndDate(
       branch,
       formattedDate
     );
 
-    responseHelper.ok(res, turns)
+    responseHelper.ok(res, turns);
   } catch {
     responseHelper.error(res);
   }
 };
 
-export default { create, getByBranchAndDate };
+// GET BOOKING
+const getOne = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const booking = await bookingsService.getOne(id);
+
+    responseHelper.ok(res, booking);
+  } catch {
+    responseHelper.error(res);
+  }
+};
+
+// CANCEL BOOKING
+const cancel = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await bookingsService.cancel(id)
+
+    responseHelper.deleted(res)
+  } catch {
+    responseHelper.error(res);
+  }
+};
+
+export default { create, getByBranchAndDate, getOne, cancel };

@@ -28,10 +28,18 @@ const bookingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    number: {
+      type: String,
+      required: true,
+    },
+    userId: {
+      type: String,
+      required: true,
+    },
     status: {
       type: Boolean,
       required: true,
-      default: true
+      default: true,
     },
   },
   modelOptions

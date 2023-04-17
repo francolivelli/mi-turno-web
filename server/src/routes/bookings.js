@@ -10,16 +10,16 @@ router.post("/", validateBooking, bookingsController.create)
 // GET BOOKINGS BY BRANCH AND DATE
 router.get("/find/:branch/:date", bookingsController.getByBranchAndDate)
 
+// GET BOOKING
+router.get("/:id", bookingsController.getOne)
+
+// CANCEL BOOKING
+router.delete("/:id", bookingsController.cancel)
+
 // // GET BOOKINGS BY USER
 // router.get("/user/:userId", bookingsController.getAllOfUser)
 
-// // GET BOOKING
-// router.get("/:id", bookingsController.getOne)
-
 // // UPDATE BOOKING
 // router.put("/:id", validateBooking, bookingsController.update)
-
-// // CANCEL BOOKING
-// router.delete("/:id", bookingsController.cancel)
 
 export default router;

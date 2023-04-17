@@ -6,8 +6,7 @@ export const validateBooking = [
   check("name").isString().withMessage("Name is required"),
   check("email")
     .isEmail()
-    .withMessage("A valid email is required")
-    .normalizeEmail(),
+    .withMessage("A valid email is required"),
   check("phone")
     .isNumeric()
     .withMessage("Phone number must be numeric")

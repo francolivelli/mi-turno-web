@@ -3,7 +3,7 @@ import branchModel from "../models/Branch.js";
 import responseHelper from "../helpers/response.helper.js";
 
 // BOOK
-const create = async ({ name, email, phone, branch, date, time }) => {
+const create = async ({ name, email, phone, branch, date, time, userId }) => {
   const selectedBranch = await branchModel.findById(branch);
 
   const branchCapacity = selectedBranch.maxCapacity;
@@ -17,12 +17,29 @@ const create = async ({ name, email, phone, branch, date, time }) => {
   if (existingBookingsCount < branchCapacity) {
     const booking = new bookingModel();
 
+    const lastBooking = await bookingModel.findOne().sort({ createdAt: -1 });
+    let newNumber = "";
+    if (!lastBooking) {
+      newNumber = "0000000000000-01";
+    } else {
+      const lastNumber = lastBooking.number;
+      const [block1, block2] = lastNumber.split("-");
+      const number = parseInt(block1 + block2, 10) + 1;
+      const formattedNumber = number.toString().padStart(15, "0");
+      newNumber = `${formattedNumber.slice(0, 13)}-${formattedNumber.slice(
+        13,
+        15
+      )}`;
+    }
+
     booking.name = name;
     booking.email = email;
     booking.phone = phone;
     booking.branch = branch;
     booking.date = date;
     booking.time = time;
+    booking.number = newNumber;
+    booking.userId = userId
 
     await booking.save();
 
@@ -37,9 +54,21 @@ const create = async ({ name, email, phone, branch, date, time }) => {
 
 // GET BOOKINGS BY BRANCH AND DATE
 const getByBranchAndDate = async (branch, date) => {
-  const turns = await bookingModel.find({branch, date});
+  const turns = await bookingModel.find({ branch, date });
 
-  return turns
+  return turns;
 };
 
-export default { create, getByBranchAndDate };
+// GET BOOKING
+const getOne = async (id) => {
+  const booking = await bookingModel.findById(id);
+
+  return booking;
+};
+
+// CANCEL BOOKING
+const cancel = async (id) => {
+  await bookingModel.findByIdAndDelete(id);
+};
+
+export default { create, getByBranchAndDate, getOne, cancel };
