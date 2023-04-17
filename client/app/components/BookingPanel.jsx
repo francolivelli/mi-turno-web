@@ -8,6 +8,8 @@ import { useMediaQuery } from "react-responsive";
 import Calendar from "./Calendar";
 import axios from "axios";
 import moment from "moment";
+import { selectDate } from "../features/dateSlice";
+import { useRouter } from "next/navigation";
 
 const BookingPanel = () => {
   const dispatch = useDispatch();
@@ -15,6 +17,8 @@ const BookingPanel = () => {
   const [branches, setBranches] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState("");
   const [formInputs, setFormInputs] = useState({
+    branch: "",
+    date: "",
     time: "",
     name: "",
     phone: "",
@@ -23,6 +27,8 @@ const BookingPanel = () => {
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [turns, setTurns] = useState([]);
+  const date = useSelector(selectDate);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchBranches = async () => {
@@ -51,7 +57,7 @@ const BookingPanel = () => {
     }
   };
 
-  const generateTurns = (start, end) => {
+  const generateTurns = async (start, end, date, selectedBranch) => {
     const startTime = moment(start, "HH:mm");
     const endTime = moment(end, "HH:mm");
     const diff = endTime.diff(startTime, "minutes");
@@ -61,27 +67,66 @@ const BookingPanel = () => {
         .add(i * 15, "minutes")
         .format("HH:mm")
     );
-    return turnsArr;
+
+    const branch = await axios.get(
+      `http://localhost:5000/api/branches/${selectedBranch}`
+    );
+
+    const branchCapacity = branch.data.maxCapacity;
+
+    const bookings = await axios.get(
+      `http://localhost:5000/api/bookings/find/${selectedBranch}/${moment(
+        date,
+        "DD/MM/YYYY"
+      ).format("YYYY-MM-DD")}`
+    );
+
+    const availableTurns = [];
+
+    for (let i = 0; i < turnsArr.length; i++) {
+      const turn = turnsArr[i];
+
+      // Verificar si hay una reserva en este turno
+      const booking = bookings.data.find(
+        (booking) => moment(booking.time, "HH:mm").format("HH:mm") === turn
+      );
+
+      // Verificar si la capacidad de la sucursal está llena en este turno
+      const numBookings = bookings.data.filter(
+        (booking) => moment(booking.time, "HH:mm").format("HH:mm") === turn
+      ).length;
+      const isCapacityFull = numBookings >= branchCapacity;
+
+      if (!booking && !isCapacityFull) {
+        availableTurns.push(turn);
+      }
+    }
+
+    return availableTurns;
   };
 
   useEffect(() => {
-    if (startTime && endTime) {
-      const newTurns = generateTurns(startTime, endTime);
-      setTurns(newTurns);
-    }
-  }, [startTime, endTime]);
+    const generateNewTurns = async () => {
+      if (startTime && endTime && date && selectedBranch) {
+        const newTurns = await generateTurns(startTime, endTime, date, selectedBranch);
+        setTurns(newTurns);
+      }
+    };
+    generateNewTurns();
+  }, [startTime, endTime, date, selectedBranch]);
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
     if (userData) {
       setFormInputs({
-        time: "",
+        date: date,
+        branch: selectedBranch,
         name: userData.name,
         phone: userData.phone || "",
         email: userData.email,
       });
     }
-  }, []);
+  }, [date, selectedBranch]);
 
   useEffect(() => {
     if (currentStep === 1) {
@@ -103,6 +148,19 @@ const BookingPanel = () => {
     query: "(min-width: 768px)",
   });
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const response = await axios.post(
+      "http://localhost:5000/api/bookings",
+      formInputs
+    );
+
+    if (response.status === 201) {
+      router.push("/bookings/confirmation");
+    }
+  };
+
   return (
     <div className={styles.container__bp}>
       <div className={styles.header__bp}>
@@ -118,11 +176,12 @@ const BookingPanel = () => {
         )}
       </div>
       <ProgressBar step={currentStep} />
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <div className="input__field">
           <label className="input__label">Sucursal</label>
           <select
             className="input"
+            required
             value={selectedBranch}
             onChange={handleSelectBranch}>
             <option value="" />
@@ -144,6 +203,7 @@ const BookingPanel = () => {
               <label className="input__label">Horario</label>
               <select
                 className="input"
+                required
                 name="time"
                 value={formInputs.time}
                 onChange={handleInput}>
@@ -160,6 +220,7 @@ const BookingPanel = () => {
                 <label className="input__label">Nombre y Apellido</label>
                 <input
                   className="input"
+                  required
                   name="name"
                   value={formInputs.name}
                   onChange={handleInput}
@@ -169,6 +230,7 @@ const BookingPanel = () => {
                 <label className="input__label">Teléfono</label>
                 <input
                   className="input"
+                  required
                   name="phone"
                   value={formInputs.phone}
                   onChange={handleInput}
@@ -179,6 +241,7 @@ const BookingPanel = () => {
               <label className="input__label">Mail</label>
               <input
                 className="input"
+                required
                 name="email"
                 value={formInputs.email}
                 onChange={handleInput}

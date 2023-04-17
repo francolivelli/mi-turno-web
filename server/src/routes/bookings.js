@@ -7,8 +7,8 @@ const router = express.Router();
 // BOOK
 router.post("/", validateBooking, bookingsController.create)
 
-// // GET BOOKINGS
-// router.get("/", bookingsController.getAll)
+// GET BOOKINGS BY BRANCH AND DATE
+router.get("/find/:branch/:date", bookingsController.getByBranchAndDate)
 
 // // GET BOOKINGS BY USER
 // router.get("/user/:userId", bookingsController.getAllOfUser)

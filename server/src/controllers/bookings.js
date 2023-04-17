@@ -24,4 +24,23 @@ const create = async (req, res) => {
   }
 };
 
-export default { create };
+// GET BOOKINGS BY BRANCH AND DATE
+const getByBranchAndDate = async (req, res) => {
+  try {
+    const { branch, date } = req.params;
+
+    const dateParts = date.split("-");
+    const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+    
+    const turns = await bookingsService.getByBranchAndDate(
+      branch,
+      formattedDate
+    );
+
+    responseHelper.ok(res, turns)
+  } catch {
+    responseHelper.error(res);
+  }
+};
+
+export default { create, getByBranchAndDate };

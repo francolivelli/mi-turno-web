@@ -1,22 +1,45 @@
-import mongoose from "mongoose";
 import bookingModel from "../models/Booking.js";
+import branchModel from "../models/Branch.js";
+import responseHelper from "../helpers/response.helper.js";
 
 // BOOK
 const create = async ({ name, email, phone, branch, date, time }) => {
-  const { ObjectId } = mongoose.Types;
+  const selectedBranch = await branchModel.findById(branch);
 
-  const booking = new bookingModel();
+  const branchCapacity = selectedBranch.maxCapacity;
 
-  booking.name = name;
-  booking.email = email;
-  booking.phone = phone;
-  booking.branch = ObjectId(branch);
-  booking.date = date;
-  booking.time = time;
+  const existingBookingsCount = await bookingModel.countDocuments({
+    branch,
+    date,
+    time,
+  });
 
-  await booking.save();
+  if (existingBookingsCount < branchCapacity) {
+    const booking = new bookingModel();
 
-  return booking;
+    booking.name = name;
+    booking.email = email;
+    booking.phone = phone;
+    booking.branch = branch;
+    booking.date = date;
+    booking.time = time;
+
+    await booking.save();
+
+    return booking;
+  } else {
+    responseHelper.error(
+      res,
+      "La capacidad máxima de la sucursal ha sido alcanzada"
+    );
+  }
 };
 
-export default { create };
+// GET BOOKINGS BY BRANCH AND DATE
+const getByBranchAndDate = async (branch, date) => {
+  const turns = await bookingModel.find({branch, date});
+
+  return turns
+};
+
+export default { create, getByBranchAndDate };

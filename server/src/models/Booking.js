@@ -16,7 +16,7 @@ const bookingSchema = new mongoose.Schema(
       required: true,
     },
     branch: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: "Branch",
       required: true,
     },
