@@ -59,6 +59,10 @@
   width: 100%
 }
 
+.form button {
+  margin-top: 10px;
+}
+
 .questionContainer {
   display: flex;
   justify-content: center;

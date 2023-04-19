@@ -21,6 +21,12 @@ const LoginForm = () => {
     e.preventDefault();
     setLoading(true);
     dispatch(loginAsync({ email, password }));
+    setTimeout(() => {
+      if (!user) {
+        setShowError(true);
+      }
+      setLoading(false);
+    }, 1500);
   };
 
   const togglePasswordVisibility = () => {
@@ -28,9 +34,11 @@ const LoginForm = () => {
   };
 
   useEffect(() => {
-    if (user?.role === "client") router.push("/bookings/create")
-    if (user?.role === "admin") router.push("/branches");
-    else if (user?.error) setShowError(true);
+    if (user?.role === "client") {
+      router.push("/bookings/create");
+    } else if (user?.role === "admin") {
+      router.push("/branches");
+    }
     setLoading(false);
   }, [user]);
 

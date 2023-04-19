@@ -47,7 +47,7 @@ function RootLayout({ children, isUserLoaded, user }) {
     if (currentPath === "!/" && isAuthenticated) {
       setShowNavbar(true);
     }
-  }, [currentPath, isAuthenticated]);
+  }, [currentPath, isAuthenticated, user]);
 
   return (
     <html>

@@ -33,7 +33,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { login, logout, setIsLoading } = userSlice.actions;
+export const { login, logout, setIsLoading, setError } = userSlice.actions;
 
 export const loginAsync =
   ({ email, password }) =>
