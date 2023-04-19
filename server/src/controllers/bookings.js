@@ -15,7 +15,7 @@ const create = async (req, res) => {
       branch,
       date,
       time,
-      userId
+      userId,
     });
 
     const selectedBranch = await branchesService.getOne(branch);
@@ -86,12 +86,27 @@ const cancel = async (req, res) => {
   try {
     const { id } = req.params;
 
-    await bookingsService.cancel(id)
+    const { cancelReason } = req.body;
 
-    responseHelper.deleted(res)
+    await bookingsService.cancel(id, cancelReason);
+
+    responseHelper.ok(res);
   } catch {
     responseHelper.error(res);
   }
 };
 
-export default { create, getByBranchAndDate, getOne, cancel };
+// GET BOOKINGS BY USER
+const getAllOfUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const bookings = await bookingsService.getAllOfUser(userId);
+
+    responseHelper.ok(res, bookings);
+  } catch {
+    responseHelper.error(res);
+  }
+};
+
+export default { create, getByBranchAndDate, getOne, cancel, getAllOfUser };

@@ -14,10 +14,10 @@ router.get("/find/:branch/:date", bookingsController.getByBranchAndDate)
 router.get("/:id", bookingsController.getOne)
 
 // CANCEL BOOKING
-router.delete("/:id", bookingsController.cancel)
+router.put("/:id", bookingsController.cancel)
 
-// // GET BOOKINGS BY USER
-// router.get("/user/:userId", bookingsController.getAllOfUser)
+// GET BOOKINGS BY USER
+router.get("/user/:userId", bookingsController.getAllOfUser)
 
 // // UPDATE BOOKING
 // router.put("/:id", validateBooking, bookingsController.update)

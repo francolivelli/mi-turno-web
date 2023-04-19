@@ -12,6 +12,7 @@ const create = async ({ name, email, phone, branch, date, time, userId }) => {
     branch,
     date,
     time,
+    status: true,
   });
 
   if (existingBookingsCount < branchCapacity) {
@@ -39,7 +40,7 @@ const create = async ({ name, email, phone, branch, date, time, userId }) => {
     booking.date = date;
     booking.time = time;
     booking.number = newNumber;
-    booking.userId = userId
+    booking.userId = userId;
 
     await booking.save();
 
@@ -54,7 +55,7 @@ const create = async ({ name, email, phone, branch, date, time, userId }) => {
 
 // GET BOOKINGS BY BRANCH AND DATE
 const getByBranchAndDate = async (branch, date) => {
-  const turns = await bookingModel.find({ branch, date });
+  const turns = await bookingModel.find({ branch, date, status: true });
 
   return turns;
 };
@@ -67,8 +68,22 @@ const getOne = async (id) => {
 };
 
 // CANCEL BOOKING
-const cancel = async (id) => {
-  await bookingModel.findByIdAndDelete(id);
+const cancel = async (id, cancelReason) => {
+  const booking = await bookingModel.findById(id);
+
+  booking.status = false;
+  booking.cancelReason = cancelReason;
+
+  await booking.save();
+
+  return booking;
 };
 
-export default { create, getByBranchAndDate, getOne, cancel };
+// GET BOOKINGS BY USER
+const getAllOfUser = async (userId) => {
+  const bookings = await bookingModel.find({ userId, status: true });
+
+  return bookings;
+};
+
+export default { create, getByBranchAndDate, getOne, cancel, getAllOfUser };

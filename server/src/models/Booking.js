@@ -41,6 +41,9 @@ const bookingSchema = new mongoose.Schema(
       required: true,
       default: true,
     },
+    cancelReason: {
+      type: String,
+    },
   },
   modelOptions
 );

@@ -1,6 +1,5 @@
 "use client";
 import styles from "../../styles/components/BookingResume.module.css";
-import { FiTool } from "react-icons/fi";
 import { CgClose } from "react-icons/cg";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -13,8 +12,6 @@ const BookingResume = () => {
   const bookingId = searchParams.get("id");
   const [booking, setBooking] = useState(null);
   const [branch, setBranch] = useState(null);
-  const [isCanceling, setIsCanceling] = useState(false);
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const user = useSelector(selectUser);
 
@@ -56,14 +53,7 @@ const BookingResume = () => {
   });
 
   const handleCancel = async () => {
-    if (isCanceling) {
-      setLoading(true);
-      await axios.delete(`http://localhost:5000/api/bookings/${bookingId}`);
-      setLoading(false)
-      router.push(`/bookings?id=${user.id}`);
-    } else {
-      setIsCanceling(true);
-    }
+    router.push(`/bookings/cancel?id=${bookingId}`);
   };
 
   return (
@@ -109,33 +99,17 @@ const BookingResume = () => {
           </div>
         </div>
         <div className={styles.booking__buttons}>
-          <button className={`btn-secondary ${styles.booking__button}`}>
-            <FiTool /> Editar Reserva
-          </button>
           <button
-            className={`btn-tertiary ${styles["booking__button--cancel"]}`}
+            className={"btn-tertiary btn-error"}
             onClick={handleCancel}>
-            {isCanceling ? (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "5px",
-                }}>
-                <CgClose /> {"¿Estás seguro?"}
-              </div>
-            ) : loading ? (
-              <span className="spinner" />
-            ) : (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "5px",
-                }}>
-                <CgClose /> <p>Cancelar Reserva</p>
-              </div>
-            )}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+              }}>
+              <CgClose /> <p>Cancelar Reserva</p>
+            </div>
           </button>
         </div>
       </div>

@@ -37,6 +37,6 @@
 }
 
 .divider {
-    border: 0.0625rem solid var(--color-grey3);
-    width: 100%;
-  }
+  border: 0.0625rem solid var(--color-grey3);
+  width: 100%;
+}

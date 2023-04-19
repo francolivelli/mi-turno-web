@@ -56,7 +56,7 @@ const Gratitude = () => {
     const doc = new jsPDF({
       orientation: "p",
       unit: "cm",
-      format: [12, 8],
+      format: [12, 12],
       marginLeft: 1.5,
       marginTop: 1.5,
     });
