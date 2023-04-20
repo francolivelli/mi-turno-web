@@ -19,6 +19,12 @@ router.put("/:id", bookingsController.cancel)
 // GET BOOKINGS BY USER
 router.get("/user/:userId", bookingsController.getAllOfUser)
 
+// GET BOOKINGS BY BRANCH
+router.get("/branch/:branch", bookingsController.getAllOfBranch)
+
+// SET ATTENDANCE
+router.put("/attendance/:id", bookingsController.setAttendance)
+
 // // UPDATE BOOKING
 // router.put("/:id", validateBooking, bookingsController.update)
 

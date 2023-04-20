@@ -26,7 +26,7 @@ const LoginForm = () => {
         setShowError(true);
       }
       setLoading(false);
-    }, 1500);
+    }, 2000);
   };
 
   const togglePasswordVisibility = () => {
@@ -38,6 +38,8 @@ const LoginForm = () => {
       router.push("/bookings/create");
     } else if (user?.role === "admin") {
       router.push("/branches");
+    } else if(user?.role === "operator"){
+      router.push("/bookings");
     }
     setLoading(false);
   }, [user]);

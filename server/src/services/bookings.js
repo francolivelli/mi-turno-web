@@ -86,4 +86,33 @@ const getAllOfUser = async (userId) => {
   return bookings;
 };
 
-export default { create, getByBranchAndDate, getOne, cancel, getAllOfUser };
+// GET BOOKINGS BY BRANCH
+const getAllOfBranch = async (branch) => {
+  const bookings = await bookingModel.find({ branch, status: true });
+
+  console.log(bookings)
+
+  return bookings;
+};
+
+// CANCEL BOOKING
+const setAttendance = async (id, attendance) => {
+  const booking = await bookingModel.findById(id);
+
+  booking.status = false;
+  booking.attended = attendance;
+
+  await booking.save();
+
+  return booking;
+};
+
+export default {
+  create,
+  getByBranchAndDate,
+  getOne,
+  cancel,
+  getAllOfUser,
+  getAllOfBranch,
+  setAttendance
+};

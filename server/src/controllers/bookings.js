@@ -109,4 +109,32 @@ const getAllOfUser = async (req, res) => {
   }
 };
 
-export default { create, getByBranchAndDate, getOne, cancel, getAllOfUser };
+// GET BOOKINGS BY BRANCH
+const getAllOfBranch = async (req, res) => {
+  try {
+    const { branch } = req.params;
+
+    const bookings = await bookingsService.getAllOfBranch(branch);
+
+    responseHelper.ok(res, bookings);
+  } catch {
+    responseHelper.error(res);
+  }
+};
+
+// SET ATTENDANCE
+const setAttendance = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { attendance } = req.body;
+
+    await bookingsService.setAttendance(id, attendance);
+
+    responseHelper.ok(res);
+  } catch {
+    responseHelper.error(res);
+  }
+};
+
+export default { create, getByBranchAndDate, getOne, cancel, getAllOfUser, getAllOfBranch, setAttendance };

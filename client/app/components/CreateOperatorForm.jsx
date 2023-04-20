@@ -136,7 +136,7 @@ const CreateOperatorForm = () => {
           <div className="input__field">
             <label className="input__label">Contraseña</label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               required
               className="input"
               onChange={(e) => setPassword(e.target.value)}
@@ -152,7 +152,7 @@ const CreateOperatorForm = () => {
           <div className="input__field">
             <label className="input__label">Confirmar contraseña</label>
             <input
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               required
               className="input"
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -197,9 +197,7 @@ const CreateOperatorForm = () => {
       </form>
       <hr className={styles.divider} />
       <Link href="/operators/promote">
-        <button className={"btn-secondary w100"}>
-          Promover usuario
-        </button>
+        <button className={"btn-secondary w100"}>Promover usuario</button>
       </Link>
     </div>
   );

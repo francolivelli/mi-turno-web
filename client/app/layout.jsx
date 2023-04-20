@@ -38,7 +38,7 @@ function RootLayout({ children, isUserLoaded, user }) {
     if (isUserLoaded && isAuthenticated && currentPath !== "/") {
       setShowNavbar(true);
     }
-  }, [isUserLoaded, isAuthenticated, currentPath]);
+  }, [isUserLoaded, isAuthenticated, currentPath, user]);
 
   useEffect(() => {
     if (currentPath === "/" && !isAuthenticated) {
