@@ -23,7 +23,9 @@ const ListBookings = () => {
         `http://localhost:5000/api/bookings/attendance/${bookingId}`,
         { attendance }
       );
-      setBookings(bookings.filter((booking) => booking.id !== bookingId));
+      setTimeout(() => {
+        setBookings(bookings.filter((booking) => booking.id !== bookingId));
+      }, 1500);
     } catch (error) {
       console.log(error);
     }

@@ -16,17 +16,13 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [clickedLoginButton, setClickedLoginButton] = useState(false); // NEW
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     dispatch(loginAsync({ email, password }));
-    setTimeout(() => {
-      if (!user) {
-        setShowError(true);
-      }
-      setLoading(false);
-    }, 2000);
+    setClickedLoginButton(true);
   };
 
   const togglePasswordVisibility = () => {
@@ -38,11 +34,21 @@ const LoginForm = () => {
       router.push("/bookings/create");
     } else if (user?.role === "admin") {
       router.push("/branches");
-    } else if(user?.role === "operator"){
+    } else if (user?.role === "operator") {
       router.push("/bookings");
     }
     setLoading(false);
   }, [user]);
+
+  useEffect(() => {
+    if (user === null && clickedLoginButton) {
+      setLoading(false)
+      setShowError(true);
+    } else {
+      setLoading(false)
+      setShowError(false);
+    }
+  }, [user, loading]);
 
   return (
     <div className={styles.container}>
