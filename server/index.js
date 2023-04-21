@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import http from "http";
 import mongoose from "mongoose";
 import "dotenv/config";
 import routes from "./src/routes/index.js";
@@ -17,12 +18,14 @@ app.use("/api", routes);
 
 const port = process.env.PORT || 5000;
 
+const server = http.createServer(app);
+
 mongoose
   .set("strictQuery", false)
   .connect(process.env.MONGODB_URL)
   .then(() => {
     console.log("MongoDB connected");
-    app.listen(port, () => {
+    server.listen(port, () => {
       console.log(`Server is listening on port ${port}`);
     });
   })
@@ -30,3 +33,5 @@ mongoose
     console.log({ err });
     process.exit(1);
   });
+
+  export default server
