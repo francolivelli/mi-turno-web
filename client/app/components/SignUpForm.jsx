@@ -78,7 +78,7 @@ function SignUpForm() {
         dni: formData.get("dni"),
         email: formData.get("email"),
         password: password,
-      })
+      }, { withCredentials: true })
       .then((response) => {
         // Redirecciona al usuario a la página de inicio de sesión
         setLoading(false);
