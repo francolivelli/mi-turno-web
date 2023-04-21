@@ -12,6 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.options("*", cors());
 app.use("/api", routes);
 
 const port = process.env.PORT || 5000;
