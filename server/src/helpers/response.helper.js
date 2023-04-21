@@ -1,5 +1,13 @@
-const responseWithData = (res, statusCode, data) =>
-  res.status(statusCode).json(data);
+const responseWithData = (res, statusCode, data) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  return res.status(statusCode).json(data);
+};
 
 const error = (res, message = null) =>
   responseWithData(res, 500, {
@@ -31,4 +39,12 @@ const notFound = (res) =>
     message: "Resource not found",
   });
 
-export default { error, badrequest, ok, created, deleted, unauthorized, notFound };
+export default {
+  error,
+  badrequest,
+  ok,
+  created,
+  deleted,
+  unauthorized,
+  notFound,
+};
