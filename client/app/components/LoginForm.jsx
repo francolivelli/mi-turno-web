@@ -42,10 +42,12 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (user === null && clickedLoginButton) {
-      setLoading(false)
-      setShowError(true);
+      setLoading(false);
+      setTimeout(() => {
+        setShowError(true);
+      }, 3000);
     } else {
-      setLoading(false)
+      setLoading(false);
       setShowError(false);
     }
   }, [user, loading]);
