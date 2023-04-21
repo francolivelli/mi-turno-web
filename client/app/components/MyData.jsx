@@ -24,6 +24,7 @@ const MyData = () => {
 
   const handleLogout = () => {
     axios.post("https://mi-turno-web-api.vercel.app/api/users/signout");
+    localStorage.removeItem("user")
     dispatch(logoutAsync());
     router.push("/");
   };
