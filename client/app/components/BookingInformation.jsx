@@ -8,7 +8,7 @@ const BookingInformation = ({ bookingId }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/bookings/${bookingId}`)
+      .get(`https://mi-turno-web-api.vercel.app/api/bookings/${bookingId}`)
       .then((response) => {
         setBookingData(response.data);
       })
@@ -20,7 +20,7 @@ const BookingInformation = ({ bookingId }) => {
   useEffect(() => {
     if (bookingData) {
       axios
-        .get(`http://localhost:5000/api/branches/${bookingData.branch}`)
+        .get(`https://mi-turno-web-api.vercel.app/api/branches/${bookingData.branch}`)
         .then((response) => {
           setBranchData(response.data);
         })

@@ -41,7 +41,7 @@ export const loginAsync =
     try {
       dispatch(setIsLoading(true));
       const response = await axios.post(
-        "http://localhost:5000/api/users/signin",
+        "https://mi-turno-web-api.vercel.app/api/users/signin",
         {
           email,
           password,
@@ -61,7 +61,7 @@ export const logoutAsync = () => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
     await axios.post(
-      "http://localhost:5000/api/users/signout",
+      "https://mi-turno-web-api.vercel.app/api/users/signout",
       {},
       { withCredentials: true }
     );

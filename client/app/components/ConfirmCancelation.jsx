@@ -8,7 +8,7 @@ const ConfirmCancelation = ({ bookingId, selectedReason }) => {
   const handleCancelation = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/bookings/${bookingId}`,
+        `https://mi-turno-web-api.vercel.app/api/bookings/${bookingId}`,
         { cancelReason: selectedReason }
       );
       if (response.status === 200) {

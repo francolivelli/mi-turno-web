@@ -20,7 +20,7 @@ const ListBookings = () => {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/bookings/attendance/${bookingId}`,
+        `https://mi-turno-web-api.vercel.app/api/bookings/attendance/${bookingId}`,
         { attendance }
       );
       setTimeout(() => {
@@ -35,9 +35,9 @@ const ListBookings = () => {
     const fetchBookings = async () => {
       const url =
         user.role === "client"
-          ? `http://localhost:5000/api/bookings/user/${user.id}`
+          ? `https://mi-turno-web-api.vercel.app/api/bookings/user/${user.id}`
           : user.role === "operator"
-          ? `http://localhost:5000/api/bookings/branch/${user.branch}`
+          ? `https://mi-turno-web-api.vercel.app/api/bookings/branch/${user.branch}`
           : null;
 
       try {
@@ -48,7 +48,7 @@ const ListBookings = () => {
       }
     };
     const fetchBranches = async () => {
-      const response = await axios.get("http://localhost:5000/api/branches");
+      const response = await axios.get("https://mi-turno-web-api.vercel.app/api/branches");
       setBranches(response.data);
     };
 

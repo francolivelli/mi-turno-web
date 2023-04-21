@@ -42,7 +42,7 @@ const EditBranchForm = () => {
   useEffect(() => {
     async function fetchData() {
       const response = await axios.get(
-        `http://localhost:5000/api/branches/${branchId}`
+        `https://mi-turno-web-api.vercel.app/api/branches/${branchId}`
       );
       setBranch(response.data);
     }
@@ -65,7 +65,7 @@ const EditBranchForm = () => {
     setLoading(true);
 
     const response = await axios.put(
-      `http://localhost:5000/api/branches/update/${branchId}`,
+      `https://mi-turno-web-api.vercel.app/api/branches/update/${branchId}`,
       { name, email, phone, maxCapacity, startTime, endTime }
     );
 

@@ -23,7 +23,7 @@ const MyData = () => {
   }, []);
 
   const handleLogout = () => {
-    axios.post("http://localhost:5000/api/users/signout");
+    axios.post("https://mi-turno-web-api.vercel.app/api/users/signout");
     dispatch(logoutAsync());
     router.push("/");
   };
@@ -34,7 +34,7 @@ const MyData = () => {
       const { name, email, dni, phone } = userData;
 
       const response = await axios.put(
-        `http://localhost:5000/api/users/update/${userData.id}`,
+        `https://mi-turno-web-api.vercel.app/api/users/update/${userData.id}`,
         { name: name, email: email, dni: dni, phone: phone }
       );
 

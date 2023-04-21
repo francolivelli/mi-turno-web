@@ -18,7 +18,7 @@ const BookingResume = () => {
   useEffect(() => {
     const getBooking = async () => {
       const booking = await axios.get(
-        `http://localhost:5000/api/bookings/${bookingId}`
+        `https://mi-turno-web-api.vercel.app/api/bookings/${bookingId}`
       );
       setBooking(booking.data);
     };
@@ -29,7 +29,7 @@ const BookingResume = () => {
     if (booking) {
       const getBranch = async () => {
         const branch = await axios.get(
-          `http://localhost:5000/api/branches/${booking.branch}`
+          `https://mi-turno-web-api.vercel.app/api/branches/${booking.branch}`
         );
         setBranch(branch.data);
       };

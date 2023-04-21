@@ -30,7 +30,7 @@ const ResetPasswordForm = () => {
     const token = searchParams.get("token");
     if (token) {
       axios
-        .get(`http://localhost:5000/api/users/verifyToken/${token}`)
+        .get(`https://mi-turno-web-api.vercel.app/api/users/verifyToken/${token}`)
         .then((response) => {
           setIsValidToken(true);
         })
@@ -60,7 +60,7 @@ const ResetPasswordForm = () => {
     e.preventDefault();
     setLoading(true);
     const response = await axios.post(
-      "http://localhost:5000/api/users/reset-password",
+      "https://mi-turno-web-api.vercel.app/api/users/reset-password",
       {
         token: token,
         newPassword: newPassword,

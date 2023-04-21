@@ -38,7 +38,7 @@ const BookingPanel = ({ onBookingSuccess }) => {
       dispatch(setCurrentStep(1));
     } else {
       axios
-        .get(`http://localhost:5000/api/branches/${selectedValue}`)
+        .get(`https://mi-turno-web-api.vercel.app/api/branches/${selectedValue}`)
         .then((response) => {
           setStartTime(response.data.startTime);
           setEndTime(response.data.endTime);
@@ -62,12 +62,12 @@ const BookingPanel = ({ onBookingSuccess }) => {
     );
 
     const branch = await axios.get(
-      `http://localhost:5000/api/branches/${selectedBranch}`
+      `https://mi-turno-web-api.vercel.app/api/branches/${selectedBranch}`
     );
     const branchCapacity = branch.data.maxCapacity;
 
     const bookings = await axios.get(
-      `http://localhost:5000/api/bookings/find/${selectedBranch}/${moment(
+      `https://mi-turno-web-api.vercel.app/api/bookings/find/${selectedBranch}/${moment(
         date,
         "DD/MM/YYYY"
       ).format("YYYY-MM-DD")}`
@@ -105,7 +105,7 @@ const BookingPanel = ({ onBookingSuccess }) => {
 
   useEffect(() => {
     const fetchBranches = async () => {
-      const res = await axios.get("http://localhost:5000/api/branches");
+      const res = await axios.get("https://mi-turno-web-api.vercel.app/api/branches");
       setBranches(res.data);
     };
     fetchBranches();
@@ -154,7 +154,7 @@ const BookingPanel = ({ onBookingSuccess }) => {
     event.preventDefault();
 
     const response = await axios.post(
-      "http://localhost:5000/api/bookings",
+      "https://mi-turno-web-api.vercel.app/api/bookings",
       formInputs
     );
 

@@ -32,7 +32,7 @@ const ChangePasswordForm = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     const response = await axios.post(
-      "http://localhost:5000/api/users/change-password/",
+      "https://mi-turno-web-api.vercel.app/api/users/change-password/",
       { currentPassword, newPassword, id: user.id }
     );
 

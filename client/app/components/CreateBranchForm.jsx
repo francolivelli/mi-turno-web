@@ -38,7 +38,7 @@ const CreateBranchForm = () => {
     setLoading(true);
 
     const response = await axios.post(
-      "http://localhost:5000/api/branches/create",
+      "https://mi-turno-web-api.vercel.app/api/branches/create",
       {
         name,
         email,

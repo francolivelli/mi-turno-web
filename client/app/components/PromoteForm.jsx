@@ -20,7 +20,7 @@ const PromoteForm = () => {
   useEffect(() => {
     async function fetchBranches() {
       try {
-        const response = await axios.get("http://localhost:5000/api/branches");
+        const response = await axios.get("https://mi-turno-web-api.vercel.app/api/branches");
         const branchesData = response.data;
         setBranches(branchesData);
       } catch (error) {
@@ -36,7 +36,7 @@ const PromoteForm = () => {
     async function fetchOperator() {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/users/${email}`
+          `https://mi-turno-web-api.vercel.app/api/users/${email}`
         );
         const operatorData = response.data;
         setOperator(operatorData);
@@ -68,7 +68,7 @@ const PromoteForm = () => {
     const branchToSend = branch === "" ? null : branch;
 
     const response = await axios.put(
-      `http://localhost:5000/api/users/update/${operator.id}`,
+      `https://mi-turno-web-api.vercel.app/api/users/update/${operator.id}`,
       { name, email, dni, branch: branchToSend }
     );
 

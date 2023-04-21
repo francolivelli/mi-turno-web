@@ -39,7 +39,7 @@ const CreateOperatorForm = () => {
     setLoading(true);
 
     const response = await axios.post(
-      "http://localhost:5000/api/users/create",
+      "https://mi-turno-web-api.vercel.app/api/users/create",
       {
         name,
         email,
@@ -70,7 +70,7 @@ const CreateOperatorForm = () => {
   useEffect(() => {
     async function fetchBranches() {
       try {
-        const response = await axios.get("http://localhost:5000/api/branches");
+        const response = await axios.get("https://mi-turno-web-api.vercel.app/api/branches");
         setBranches(response.data);
       } catch (error) {
         console.log(error);

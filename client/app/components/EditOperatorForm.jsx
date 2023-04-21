@@ -24,12 +24,12 @@ const EditOperatorForm = () => {
     async function fetchData() {
       try {
         const branchesResponse = await axios.get(
-          "http://localhost:5000/api/branches"
+          "https://mi-turno-web-api.vercel.app/api/branches"
         );
         setBranches(branchesResponse.data);
 
         const operatorResponse = await axios.get(
-          `http://localhost:5000/api/users/operator/${operatorId}`
+          `https://mi-turno-web-api.vercel.app/api/users/operator/${operatorId}`
         );
         setOperator(operatorResponse.data);
       } catch (error) {
@@ -54,7 +54,7 @@ const EditOperatorForm = () => {
     const branchToSend = branch === "" ? null : branch;
 
     const response = await axios.put(
-      `http://localhost:5000/api/users/update/${operatorId}`,
+      `https://mi-turno-web-api.vercel.app/api/users/update/${operatorId}`,
       { name, email, dni, branch: branchToSend }
     );
 

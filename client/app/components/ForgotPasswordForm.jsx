@@ -17,7 +17,7 @@ const ForgotPasswordForm = () => {
 
     // Hacer una llamada a la API para obtener la URL de restablecimiento de contraseña
     const response = await axios.post(
-      "http://localhost:5000/api/users/forgot-password",
+      "https://mi-turno-web-api.vercel.app/api/users/forgot-password",
       { email }
     );
 

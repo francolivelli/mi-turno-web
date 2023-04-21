@@ -9,7 +9,7 @@ const ListBranches = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get("http://localhost:5000/api/branches");
+      const response = await axios.get("https://mi-turno-web-api.vercel.app/api/branches");
       setBranches(response.data);
     }
     fetchData();

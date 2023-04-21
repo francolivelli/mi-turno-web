@@ -15,7 +15,7 @@ const Gratitude = () => {
   useEffect(() => {
     const getBooking = async () => {
       const response = await axios.get(
-        `http://localhost:5000/api/bookings/${bookingId}`
+        `https://mi-turno-web-api.vercel.app/api/bookings/${bookingId}`
       );
       setBooking(response.data);
     };
@@ -26,7 +26,7 @@ const Gratitude = () => {
     if (booking) {
       const getBranch = async () => {
         const branch = await axios.get(
-          `http://localhost:5000/api/branches/${booking.branch}`
+          `https://mi-turno-web-api.vercel.app/api/branches/${booking.branch}`
         );
         setBranch(branch.data);
       };

@@ -10,8 +10,8 @@ const ListOperators = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get("http://localhost:5000/api/users");
-      const branches = await axios.get("http://localhost:5000/api/branches");
+      const response = await axios.get("https://mi-turno-web-api.vercel.app/api/users");
+      const branches = await axios.get("https://mi-turno-web-api.vercel.app/api/branches");
       setOperators(response.data);
       setBranches(branches.data);
     }
